@@ -1,16 +1,19 @@
 package team.java.domain;
 
+import java.sql.Date;
 import java.util.Calendar;
 
 public class Funcionario {
 	
 	private Long Id;
+	private String Login;
+	private String Senha;
 	private Long Departamento_id;
 	private String Nome;
 	private Boolean Chefe_dpto;
 	private String Email;
 	private String Endereco;
-	private Calendar Nascimento;
+	private Date Nascimento;
 	
 	public String getEmail() {
 		return Email;
@@ -18,6 +21,22 @@ public class Funcionario {
 
 	public void setEmail(String Email) {
 		this.Email = Email;
+	}
+	
+	public String getLogin() {
+		return Login;
+	}
+
+	public void setLogin(String Login) {
+		this.Login = Login;
+	}
+	
+	public String getSenha(){
+		return Senha;
+	}
+	
+	public void setSenha(String Senha){
+		this.Senha = Senha;
 	}
 
 	public Long getId() {
@@ -60,11 +79,11 @@ public class Funcionario {
 		this.Endereco = Endereco;
 	}
 
-	public Calendar getDataNascimento() {
+	public Date getDataNascimento() {
 		return Nascimento;
 	}
 
-	public void setDataNascimento(Calendar Nascimento) {
+	public void setDataNascimento(Date Nascimento) {
 		this.Nascimento = Nascimento;
 	}
 	
