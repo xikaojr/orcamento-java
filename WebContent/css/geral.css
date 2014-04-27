@@ -1,0 +1,13 @@
+@CHARSET "ISO-8859-1";
+
+.red{
+	color: #f00;
+}
+
+.black{
+	color:#000;
+}
+
+.clear{
+	clear: both;
+}

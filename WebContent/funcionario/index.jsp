@@ -22,6 +22,11 @@
 
 <!-- Bootstrap core CSS -->
 <link href="../css/Bootstrap.min.css" rel="stylesheet">
+<link href="../css/geral.css" rel="stylesheet">
+
+<!-- fontawesome-4.0.3 core CSS -->
+<link href="../assets/font-awesome-4.0.3/css/font-awesome.min.css"
+	rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link href="../css/Navbar.css" rel="stylesheet">
@@ -63,7 +68,7 @@
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="funcionario/index">Funcionarios</a></li>
-						<li><a href="#">Link</a></li>
+						<li><a href="/orcamento-java/departamento/index">Departamentos</a></li>
 						<li><a href="#">Link</a></li>
 						<!--               <li class="dropdown"> -->
 						<!--                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros <b class="caret"></b></a> -->
@@ -90,41 +95,53 @@
 		</div>
 
 		<!-- Main component for a primary marketing message or call to action -->
+		<div>
+			<h1>
+				Funcionarios <a class="btn btn-primary" href="cadastrar.jsp"> <i
+					class="fa fa-plus-square"></i>
+				</a>
+			</h1>
+		</div>
 		<div class="jumbotron">
-			<h1>Funcionarios</h1>
-
 			<form method="POST" action="index">
 				Buscar por nome: <input type="text" name="nome" /> <input
-					type="submit" name="Search" />
+					type="submit" name="Search" /> <br />
 			</form>
-			<%
-				if (listFuncionario != null) {
-			%>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>Login</th>
-					</tr>
-				</thead>
-				<tbody>
-					<%
-						for (int i = 0; i < listFuncionario.size(); i++) {
-					%>
-					<tr>
-						<td><%=listFuncionario.get(i).getNome()%></td>
-						<td><%=listFuncionario.get(i).getLogin()%></td>
-					</tr>
-					<%
-						}
-					%>
-				</tbody>
-			</table>
-			<%
-				}
-			%>
 		</div>
-
+		<%
+			if (listFuncionario != null) {
+		%>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Login</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+					for (int i = 0; i < listFuncionario.size(); i++) {
+				%>
+				<tr>
+					<td><%=listFuncionario.get(i).getNome()%></td>
+					<td><%=listFuncionario.get(i).getLogin()%></td>
+					<td><a href="#" style="cursor: pointer;"> <i
+							class="fa fa-edit black" title="Editar"></i>
+					</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
+							class="fa fa-sitemap" title="Alocar em um Departamento"></i>
+					</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
+							class="fa fa-trash-o red" title="Deletar"></i>
+					</a></td>
+				</tr>
+				<%
+					}
+				%>
+			</tbody>
+		</table>
+		<%
+			}
+		%>
 	</div>
 	<!-- /container -->
 

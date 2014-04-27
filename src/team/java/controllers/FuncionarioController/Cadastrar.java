@@ -43,7 +43,7 @@ public class Cadastrar extends HttpServlet {
 			request.setAttribute("successMessage",
 					"Funcionário cadastrado com sucesso!");
 			
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("/login.jsp");
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

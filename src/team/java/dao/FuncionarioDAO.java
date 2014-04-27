@@ -1,4 +1,3 @@
-
 package team.java.dao;
 
 import java.sql.Connection;
@@ -15,19 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 import team.java.conection.Conexao;
 import team.java.domain.Funcionario;
 
-public class FuncionarioDAO{
+public class FuncionarioDAO {
 
 	public FuncionarioDAO() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	private Connection con = Conexao.getConnection();
-	
-	public Funcionario create(Funcionario funcionario, 
-			HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		
-		
+
+	public Funcionario create(Funcionario funcionario,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
 		String sql = "INSERT INTO funcionarios (nome, login, senha) VALUES (?, ?, ?)";
 		PreparedStatement preparador = con.prepareStatement(sql);
 
@@ -51,43 +49,42 @@ public class FuncionarioDAO{
 
 			preparador.execute();
 			preparador.close();
-			
+
 		} catch (SQLException e) {
 			preparador.close();
 			e.printStackTrace();
 		}
-		
+
 		return funcionario;
 	}
-	
-	public List<Funcionario> getAll() throws Exception{
-	    
+
+	public List<Funcionario> getAll() throws Exception {
+
 		String sql = "SELECT * FROM funcionarios";
-		
-	    try{
-	    	List<Funcionario> funcionarios = new ArrayList<Funcionario>();
-	        
-	    	PreparedStatement stmt = this.con.prepareStatement(sql);
-	        ResultSet rs = stmt.executeQuery();
-	         
-	        while (rs.next()){
-	            Funcionario funcionario = new Funcionario();
-	            
-	            funcionario.setNome(rs.getString("nome"));
-	            funcionario.setLogin(rs.getString("login"));
-	            funcionarios.add(funcionario);
-	        }
-	        
-	        rs.close();
-	        stmt.close();
-	        
-	        return funcionarios;
-	        
-	    }catch(SQLException e){
-	        throw new Exception(e.getMessage());
-	    }
+
+		try {
+			List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+
+			PreparedStatement stmt = this.con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				Funcionario funcionario = new Funcionario();
+
+				funcionario.setNome(rs.getString("nome"));
+				funcionario.setLogin(rs.getString("login"));
+				funcionarios.add(funcionario);
+			}
+
+			rs.close();
+			stmt.close();
+
+			return funcionarios;
+
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
 	}
-	
 
 	private boolean verificaLogin(String login) throws Exception {
 
@@ -108,6 +105,34 @@ public class FuncionarioDAO{
 
 	}
 
-	
+	public List<Funcionario> getAll(String param) throws Exception {
+		
+		String sql = "SELECT * FROM funcionarios WHERE nome ILIKE '%?%' ";
+
+		try {
+			List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+
+			PreparedStatement stmt = this.con.prepareStatement(sql);
+			stmt.setString(1, param);
+			
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				Funcionario funcionario = new Funcionario();
+
+				funcionario.setId(rs.getLong("id"));
+				funcionario.setNome(rs.getString("nome"));
+				funcionarios.add(funcionario);
+			}
+
+			rs.close();
+			stmt.close();
+
+			return funcionarios;
+
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
+	}
 
 }

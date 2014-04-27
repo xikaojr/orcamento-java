@@ -1,3 +1,12 @@
+<%@page import="team.java.domain.Departamento"%>
+<%@page import="team.java.domain.Funcionario"%>
+<%@page import="java.util.*"%>
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -13,10 +22,15 @@
 <title>JBudget</title>
 
 <!-- Bootstrap core CSS -->
-<link href="css/Bootstrap.min.css" rel="stylesheet">
+<link href="../css/Bootstrap.min.css" rel="stylesheet">
+<link href="../css/geral.css" rel="stylesheet">
+
+<!-- fontawesome-4.0.3 core CSS -->
+<link href="../assets/font-awesome-4.0.3/css/font-awesome.min.css"
+	rel="stylesheet">
 
 <!-- Custom styles for this template -->
-<link href="css/Navbar.css" rel="stylesheet">
+<link href="../css/Navbar.css" rel="stylesheet">
 
 <!-- Just for debugging purposes. Don't actually copy this line! -->
 <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -27,6 +41,14 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+
+
+<%!ArrayList<Departamento> listDepartamento = null;%>
+<%
+	listDepartamento = (ArrayList<Departamento>) request
+			.getAttribute("departamentos");
+%>
+
 
 <body>
 
@@ -42,12 +64,12 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.html">JBudget</a>
+					<a class="navbar-brand" href="/orcamento-java/index.html">JBudget</a>
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="funcionario/index">Funcionarios</a></li>
-						<li><a href="departamento/index">Departamentos</a></li>
+						<li><a href="/orcamento-java/funcionario/index">Funcionarios</a></li>
+						<li class="active"><a href="index">Departamentos</a></li>
 						<li><a href="#">Link</a></li>
 						<!--               <li class="dropdown"> -->
 						<!--                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros <b class="caret"></b></a> -->
@@ -74,10 +96,53 @@
 		</div>
 
 		<!-- Main component for a primary marketing message or call to action -->
-<!-- 		<div class="jumbotron"> -->
-			
-<!-- 		</div> -->
-
+		<div>
+			<h1>
+				Departamentos <a class="btn btn-primary" href="cadastrar.jsp"> <i
+					class="fa fa-plus-square"></i>
+				</a>
+			</h1>
+		</div>
+		<div class="jumbotron">
+			<form method="POST" action="index">
+				Buscar por nome: <input type="text" name="nome" /> <input
+					type="submit" name="Search" /> <br />
+			</form>
+		</div>
+		<%
+			if (listDepartamento != null) {
+		%>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Chefe</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+					for (int i = 0; i < listDepartamento.size(); i++) {
+				%>
+				<tr>
+					<td><%=listDepartamento.get(i).getNome()%></td>
+					<td><%=listDepartamento.get(i).getChefeNome()%></td>
+					<td><a href="#" style="cursor: pointer;"> <i
+							class="fa fa-edit black" title="Editar"></i>
+					</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
+							class="fa fa-sitemap" title="Alocar um chefe"></i>
+					</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
+							class="fa fa-trash-o red" title="Deletar"></i>
+					</a></td>
+				</tr>
+				<%
+					}
+				%>
+			</tbody>
+		</table>
+		<%
+			}
+		%>
 	</div>
 	<!-- /container -->
 
@@ -87,6 +152,6 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
 </body>
 </html>

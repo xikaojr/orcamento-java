@@ -17,12 +17,16 @@
 <!-- Custom styles for this template -->
 <link href="../css/Navbar.css" rel="stylesheet">
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-<title>Cadastro de Funcionário</title>
+
+<title>Cadastro de Departamento</title>
 </head>
 <body>
 	<div class="container">
-			<!-- Static navbar -->
+		<!-- Static navbar -->
 		<div class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -36,9 +40,8 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li class=""><a href="index">Funcionarios</a></li>
-						<li><a href="#">Link</a></li>
-						<li><a href="#">Link</a></li>
+						<li class=""><a href="/orcamento-java/funcionario/index">Funcionarios</a></li>
+						<li class=""><a href="index">Departamentos</a></li>
 						<!--               <li class="dropdown"> -->
 						<!--                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros <b class="caret"></b></a> -->
 						<!--                 <ul class="dropdown-menu"> -->
@@ -65,7 +68,7 @@
 		<div class="container bs-docs-container">
 			<div class="row" role="main">
 				<div class="col-md-12">
-					<h1 id="overview" class="page-header">Cadastro de Funcionário</h1>
+					<h1 id="overview" class="page-header">Cadastro de Departamento</h1>
 				</div>
 
 				<%
@@ -79,21 +82,27 @@
 				%>
 
 				<form role="form" name="cadastrar" method="POST" action="cadastrar">
+					<input type="hidden" name="chefe_id"/>
 					<div class="col-md-12">
 						<div class="form-group col-md-4">
 							<label for="nome">Nome</label> <input type="text"
 								class="form-control" id="nome" name="nome"
-								value="${funcionario.nome}" placeholder="Entre com seu nome">
+								value="${departamento.nome}"
+								placeholder="Entre o nome do Departamento">
 						</div>
-						<div class="form-group col-md-4">
-							<label for="login">Login</label> <input type="text"
-								class="form-control" id="login" name="login"
-								value="${funcionario.login}" placeholder="Login">
+						<div class="form-group col-md-8">
+							<label for="chefe">Chefe do Departamento</label> <input type="text"
+								class="form-control" id="chefe" name="chefe"
+								value="${departamento.chefe_nome}"
+								placeholder="Entre o nome do funcionario e aguarde a lista.">
 						</div>
-						<div class="form-group col-md-4">
-							<label for="password">Password</label> <input type="password"
-								class="form-control" id="password" name="password"
-								value="${funcionario.senha}" placeholder="Password">
+						<br />
+					</div>
+					<div class="col-md-12">
+						<div class="form-group col-md-8">
+							<label for="descricao">Descrição</label>
+							<textarea rows="7" class="form-control" id="descricao" name="descricao"
+								value="${departamento.descricao}"></textarea>
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -107,4 +116,35 @@
 		</div>
 	</div>
 </body>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#chefe').autocomplete({
+        source: "/orcamento-java/funcionario/autocomplete",
+        type: "POST",
+        dataType: "json",
+        data: {
+            'term': $('#chefe').val()
+        },
+        minLength: 2,
+        label: 'name',
+        value: 'name',
+        open: function() {
+//            $('.ui-autocomplete').css('z-index', "1060 !important");
+        },
+        select: function(e, ui) {
+        	console.log(e);
+        	console.log(ui);
+            $('#chefe').val(ui.item.nome);
+            $('#chefe_id').val(ui.item.id);
+            return false;
+        }
+    }).blur(function() {
+        if (!$('#chefe_id').val())
+            return;
+    });
+});
+</script>
+
 </html>

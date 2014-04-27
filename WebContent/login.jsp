@@ -39,13 +39,11 @@
 			<input type="text" name="login" class="form-control"
 				placeholder="Login" 
 				value="<%= (funcionario.getLogin() != null ? funcionario.getLogin() : "" ) %>" required autofocus> <br /> 
-				<input type="password" name="senha" class="form-control" placeholder="Senha">
+				<input type="password" name="senha" class="form-control" placeholder="Senha" required >
 			<div style="clear: both;"></div>
 			<div style="text-align: center;">
 				<button class="btn btn-lg btn-primary" title="Entrar" type="submit">Sign
 					in</button>
-				<a href="cadUsuario.jsp" class="btn btn-lg btn-default	"
-					title="Cadastrar">Sign Up</a>
 			</div>
 		</form>
 	</div>
