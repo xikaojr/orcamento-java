@@ -58,7 +58,7 @@ private Connection con = Conexao.getConnection();
 					+ "f.id as func_id "
 					+ "FROM departamentos as d "
 					+ "LEFT JOIN funcionarios as f ON d.chefe_id = f.id";
-		System.out.println(sql);
+		
 	    try{
 	    	List<Departamento> departamentos = new ArrayList<Departamento>();
 	        

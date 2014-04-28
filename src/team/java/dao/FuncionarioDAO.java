@@ -1,6 +1,7 @@
 package team.java.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +27,11 @@ public class FuncionarioDAO {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		String sql = "INSERT INTO funcionarios (nome, login, senha) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO funcionarios"
+				+ "(departamento_id, nome, email, endereco,"
+				+ " nascimento, login, senha, cpf) "
+				+ " VALUES (?,?,?,?,?,?,?,?)";
+		
 		PreparedStatement preparador = con.prepareStatement(sql);
 
 		try {
@@ -37,11 +42,9 @@ public class FuncionarioDAO {
 				throw new Exception("Login é obrigatório");
 			if (funcionario.getSenha().isEmpty())
 				throw new Exception("Senha é obrigatório");
-
-			preparador.setString(1, funcionario.getNome());
-			preparador.setString(2, funcionario.getLogin());
-			preparador.setString(3, funcionario.getSenha());
-
+			
+			preparador = prepareFields(preparador, funcionario);
+			
 			if (verificaLogin(funcionario.getLogin())) {
 				throw new Exception("Este Login (" + funcionario.getLogin()
 						+ ") já esta sendo usado por favor escolha outro!");
@@ -52,10 +55,32 @@ public class FuncionarioDAO {
 
 		} catch (SQLException e) {
 			preparador.close();
-			e.printStackTrace();
+			throw new Exception(e.getMessage());
 		}
 
 		return funcionario;
+	}
+
+	private PreparedStatement prepareFields(PreparedStatement preparador
+			, Funcionario f) throws Exception {
+		
+		try {
+			
+			preparador.setLong  (1, f.getDeptoId());
+			preparador.setString(2, f.getNome());
+			preparador.setString(3, f.getEmail());
+			preparador.setString(4, f.getEndereco());
+			preparador.setDate(5, f.getDataNascimento());
+			preparador.setString(6, f.getLogin());
+			preparador.setString(7, f.getSenha());
+			preparador.setString(8, f.getCpf());
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new Exception(e.getMessage());
+		}
+		
+		return preparador;
 	}
 
 	public List<Funcionario> getAll() throws Exception {

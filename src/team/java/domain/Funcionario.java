@@ -1,7 +1,12 @@
 package team.java.domain;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class Funcionario {
 	
@@ -10,10 +15,34 @@ public class Funcionario {
 	private String Senha;
 	private Long Departamento_id;
 	private String Nome;
-	private Boolean Chefe_dpto;
 	private String Email;
 	private String Endereco;
 	private Date Nascimento;
+	private String Cpf;
+	
+	public Funcionario(){
+		
+	}
+	
+	public Funcionario(HttpServletRequest request) throws ParseException{
+		
+		this.Nome =  request.getParameter("nome");	
+		this.Login = request.getParameter("login");
+		this.Senha = request.getParameter("password");
+		this.Departamento_id = Long.parseLong(request.getParameter("departamento_id"));
+		this.Email = request.getParameter("email");
+		
+		
+	    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date date = format.parse(request.getParameter("nascimento"));
+		java.sql.Date nascimento = new java.sql.Date(date.getTime());
+		
+		this.Nascimento = nascimento;  
+		
+		this.Cpf = request.getParameter("cpf");
+		this.Endereco = request.getParameter("endereco");
+
+	}
 	
 	public String getEmail() {
 		return Email;
@@ -55,14 +84,6 @@ public class Funcionario {
 		return this.Departamento_id = Departamento_id; 
 	}
 	
-	public Boolean getChefeDepto(){
-		return Chefe_dpto;
-	}
-	
-	public Boolean setChefeDepto(Boolean Chefe_dpto){
-		return this.Chefe_dpto = Chefe_dpto; 
-	}
-
 	public String getNome() {
 		return Nome;
 	}
@@ -85,6 +106,14 @@ public class Funcionario {
 
 	public void setDataNascimento(Date Nascimento) {
 		this.Nascimento = Nascimento;
+	}
+
+	public String getCpf() {
+		return Cpf;
+	}
+
+	public void setCpf(String cpf) {
+		Cpf = cpf;
 	}
 	
 }
