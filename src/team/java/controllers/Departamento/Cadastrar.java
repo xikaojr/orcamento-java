@@ -34,7 +34,6 @@ public class Cadastrar extends HttpServlet{
 		String chefe_id = request.getParameter("chefe_id");
 		String descricao = request.getParameter("descricao");
 		
-
 		Departamento departamento = new Departamento();
 		
 		departamento.setNome(nome);

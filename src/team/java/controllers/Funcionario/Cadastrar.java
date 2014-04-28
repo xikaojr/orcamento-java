@@ -1,4 +1,4 @@
-package team.java.controllers.FuncionarioController;
+package team.java.controllers.Funcionario;
 
 import java.io.IOException;
 

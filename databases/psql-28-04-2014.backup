@@ -1,0 +1,862 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.3
+-- Dumped by pg_dump version 9.3.3
+-- Started on 2014-04-28 10:36:47
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 188 (class 3079 OID 11750)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2052 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 171 (class 1259 OID 41576)
+-- Name: departamentos; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE departamentos (
+    id integer NOT NULL,
+    nome character varying(100) NOT NULL,
+    descricao text,
+    chefe_id integer
+);
+
+
+ALTER TABLE public.departamentos OWNER TO postgres;
+
+--
+-- TOC entry 170 (class 1259 OID 41574)
+-- Name: departamentos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE departamentos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.departamentos_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2053 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: departamentos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE departamentos_id_seq OWNED BY departamentos.id;
+
+
+--
+-- TOC entry 173 (class 1259 OID 41586)
+-- Name: funcionarios; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE funcionarios (
+    id integer NOT NULL,
+    departamento_id integer,
+    chefe_dpto boolean DEFAULT false,
+    nome character varying(100) NOT NULL,
+    email character varying(100),
+    endereco character varying(100),
+    nascimento timestamp(0) without time zone,
+    login character varying,
+    senha character varying
+);
+
+
+ALTER TABLE public.funcionarios OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 41584)
+-- Name: funcionarios_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE funcionarios_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.funcionarios_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2054 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: funcionarios_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE funcionarios_id_seq OWNED BY funcionarios.id;
+
+
+--
+-- TOC entry 179 (class 1259 OID 41633)
+-- Name: itens; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE itens (
+    id integer NOT NULL,
+    nome character varying(100) NOT NULL,
+    rubrica_id integer
+);
+
+
+ALTER TABLE public.itens OWNER TO postgres;
+
+--
+-- TOC entry 178 (class 1259 OID 41631)
+-- Name: itens_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE itens_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itens_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2055 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: itens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE itens_id_seq OWNED BY itens.id;
+
+
+--
+-- TOC entry 181 (class 1259 OID 41646)
+-- Name: itens_requisicoes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE itens_requisicoes (
+    id integer NOT NULL,
+    itens_id integer,
+    requisicao_id integer,
+    quantidade numeric(12,2) NOT NULL,
+    valor numeric(12,2) DEFAULT 0.00
+);
+
+
+ALTER TABLE public.itens_requisicoes OWNER TO postgres;
+
+--
+-- TOC entry 180 (class 1259 OID 41644)
+-- Name: itens_requisicoes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE itens_requisicoes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itens_requisicoes_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2056 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: itens_requisicoes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE itens_requisicoes_id_seq OWNED BY itens_requisicoes.id;
+
+
+--
+-- TOC entry 187 (class 1259 OID 41681)
+-- Name: orc_contab; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE orc_contab (
+    id integer NOT NULL,
+    orcamento_id integer,
+    departamento_id integer,
+    rubrica_id integer,
+    periodo_id integer,
+    valor_orcado numeric(12,2) DEFAULT 0.00,
+    saldo numeric(12,2) DEFAULT 0.00
+);
+
+
+ALTER TABLE public.orc_contab OWNER TO postgres;
+
+--
+-- TOC entry 186 (class 1259 OID 41679)
+-- Name: orc_contab_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE orc_contab_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.orc_contab_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2057 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: orc_contab_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE orc_contab_id_seq OWNED BY orc_contab.id;
+
+
+--
+-- TOC entry 183 (class 1259 OID 41665)
+-- Name: orcamentos; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE orcamentos (
+    id integer NOT NULL,
+    nome character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.orcamentos OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 41663)
+-- Name: orcamentos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE orcamentos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.orcamentos_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2058 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: orcamentos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE orcamentos_id_seq OWNED BY orcamentos.id;
+
+
+--
+-- TOC entry 185 (class 1259 OID 41673)
+-- Name: periodos; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE periodos (
+    id integer NOT NULL,
+    nome character varying(100) NOT NULL,
+    data_inicio timestamp(0) without time zone,
+    data_fim timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.periodos OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 41671)
+-- Name: periodos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE periodos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.periodos_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2059 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: periodos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE periodos_id_seq OWNED BY periodos.id;
+
+
+--
+-- TOC entry 175 (class 1259 OID 41600)
+-- Name: requisicoes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE requisicoes (
+    id integer NOT NULL,
+    departamento_id integer,
+    func_lancador_id integer,
+    func_aprovador_id integer,
+    numero integer NOT NULL,
+    data_requisicao timestamp(0) without time zone DEFAULT '2014-04-21 11:41:28.92'::timestamp without time zone,
+    data_aprovacao timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.requisicoes OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 41598)
+-- Name: requisicoes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE requisicoes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.requisicoes_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2060 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: requisicoes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE requisicoes_id_seq OWNED BY requisicoes.id;
+
+
+--
+-- TOC entry 177 (class 1259 OID 41624)
+-- Name: rubricas; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE rubricas (
+    id integer NOT NULL,
+    nome character varying(100) NOT NULL,
+    tipo character varying(1),
+    CONSTRAINT rubricas_tipo_check CHECK (((tipo)::text = ANY ((ARRAY['D'::character varying, 'R'::character varying, 'I'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.rubricas OWNER TO postgres;
+
+--
+-- TOC entry 176 (class 1259 OID 41622)
+-- Name: rubricas_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE rubricas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rubricas_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2061 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: rubricas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE rubricas_id_seq OWNED BY rubricas.id;
+
+
+--
+-- TOC entry 1873 (class 2604 OID 41579)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY departamentos ALTER COLUMN id SET DEFAULT nextval('departamentos_id_seq'::regclass);
+
+
+--
+-- TOC entry 1874 (class 2604 OID 41589)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY funcionarios ALTER COLUMN id SET DEFAULT nextval('funcionarios_id_seq'::regclass);
+
+
+--
+-- TOC entry 1880 (class 2604 OID 41636)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY itens ALTER COLUMN id SET DEFAULT nextval('itens_id_seq'::regclass);
+
+
+--
+-- TOC entry 1881 (class 2604 OID 41649)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY itens_requisicoes ALTER COLUMN id SET DEFAULT nextval('itens_requisicoes_id_seq'::regclass);
+
+
+--
+-- TOC entry 1885 (class 2604 OID 41684)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY orc_contab ALTER COLUMN id SET DEFAULT nextval('orc_contab_id_seq'::regclass);
+
+
+--
+-- TOC entry 1883 (class 2604 OID 41668)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY orcamentos ALTER COLUMN id SET DEFAULT nextval('orcamentos_id_seq'::regclass);
+
+
+--
+-- TOC entry 1884 (class 2604 OID 41676)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY periodos ALTER COLUMN id SET DEFAULT nextval('periodos_id_seq'::regclass);
+
+
+--
+-- TOC entry 1876 (class 2604 OID 41603)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY requisicoes ALTER COLUMN id SET DEFAULT nextval('requisicoes_id_seq'::regclass);
+
+
+--
+-- TOC entry 1878 (class 2604 OID 41627)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY rubricas ALTER COLUMN id SET DEFAULT nextval('rubricas_id_seq'::regclass);
+
+
+--
+-- TOC entry 2028 (class 0 OID 41576)
+-- Dependencies: 171
+-- Data for Name: departamentos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY departamentos (id, nome, descricao, chefe_id) FROM stdin;
+1	Secção de Helpdesk	\N	\N
+6	Training programme II	asdfghjkl	2
+\.
+
+
+--
+-- TOC entry 2062 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: departamentos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('departamentos_id_seq', 6, true);
+
+
+--
+-- TOC entry 2030 (class 0 OID 41586)
+-- Dependencies: 173
+-- Data for Name: funcionarios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY funcionarios (id, departamento_id, chefe_dpto, nome, email, endereco, nascimento, login, senha) FROM stdin;
+1	\N	f	Francisco Ayrton Junior	\N	\N	\N	xikaojr	123123
+2	\N	f	Jonas Lima Cipriano	\N	\N	\N	jonasl	123123
+3	\N	f	Wilmar Ferreira	\N	\N	\N	wilmar	123123
+\.
+
+
+--
+-- TOC entry 2063 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: funcionarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('funcionarios_id_seq', 3, true);
+
+
+--
+-- TOC entry 2036 (class 0 OID 41633)
+-- Dependencies: 179
+-- Data for Name: itens; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY itens (id, nome, rubrica_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2064 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: itens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('itens_id_seq', 1, false);
+
+
+--
+-- TOC entry 2038 (class 0 OID 41646)
+-- Dependencies: 181
+-- Data for Name: itens_requisicoes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY itens_requisicoes (id, itens_id, requisicao_id, quantidade, valor) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2065 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: itens_requisicoes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('itens_requisicoes_id_seq', 1, false);
+
+
+--
+-- TOC entry 2044 (class 0 OID 41681)
+-- Dependencies: 187
+-- Data for Name: orc_contab; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY orc_contab (id, orcamento_id, departamento_id, rubrica_id, periodo_id, valor_orcado, saldo) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2066 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: orc_contab_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('orc_contab_id_seq', 1, false);
+
+
+--
+-- TOC entry 2040 (class 0 OID 41665)
+-- Dependencies: 183
+-- Data for Name: orcamentos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY orcamentos (id, nome) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2067 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: orcamentos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('orcamentos_id_seq', 1, false);
+
+
+--
+-- TOC entry 2042 (class 0 OID 41673)
+-- Dependencies: 185
+-- Data for Name: periodos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY periodos (id, nome, data_inicio, data_fim) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2068 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: periodos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('periodos_id_seq', 1, false);
+
+
+--
+-- TOC entry 2032 (class 0 OID 41600)
+-- Dependencies: 175
+-- Data for Name: requisicoes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY requisicoes (id, departamento_id, func_lancador_id, func_aprovador_id, numero, data_requisicao, data_aprovacao) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2069 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: requisicoes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('requisicoes_id_seq', 1, false);
+
+
+--
+-- TOC entry 2034 (class 0 OID 41624)
+-- Dependencies: 177
+-- Data for Name: rubricas; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY rubricas (id, nome, tipo) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2070 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: rubricas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('rubricas_id_seq', 1, false);
+
+
+--
+-- TOC entry 1889 (class 2606 OID 41583)
+-- Name: departamentos_nome_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY departamentos
+    ADD CONSTRAINT departamentos_nome_key UNIQUE (nome);
+
+
+--
+-- TOC entry 1891 (class 2606 OID 41581)
+-- Name: departamentos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY departamentos
+    ADD CONSTRAINT departamentos_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1893 (class 2606 OID 41592)
+-- Name: funcionarios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY funcionarios
+    ADD CONSTRAINT funcionarios_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1899 (class 2606 OID 41638)
+-- Name: itens_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY itens
+    ADD CONSTRAINT itens_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1901 (class 2606 OID 41652)
+-- Name: itens_requisicoes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY itens_requisicoes
+    ADD CONSTRAINT itens_requisicoes_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1907 (class 2606 OID 41688)
+-- Name: orc_contab_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY orc_contab
+    ADD CONSTRAINT orc_contab_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1903 (class 2606 OID 41670)
+-- Name: orcamentos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY orcamentos
+    ADD CONSTRAINT orcamentos_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1905 (class 2606 OID 41678)
+-- Name: periodos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY periodos
+    ADD CONSTRAINT periodos_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1895 (class 2606 OID 41606)
+-- Name: requisicoes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY requisicoes
+    ADD CONSTRAINT requisicoes_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1897 (class 2606 OID 41630)
+-- Name: rubricas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY rubricas
+    ADD CONSTRAINT rubricas_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1908 (class 2606 OID 41715)
+-- Name: departamentos_chefe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY departamentos
+    ADD CONSTRAINT departamentos_chefe_id_fkey FOREIGN KEY (chefe_id) REFERENCES funcionarios(id);
+
+
+--
+-- TOC entry 1909 (class 2606 OID 41593)
+-- Name: funcionarios_departamento_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY funcionarios
+    ADD CONSTRAINT funcionarios_departamento_id_fkey FOREIGN KEY (departamento_id) REFERENCES departamentos(id);
+
+
+--
+-- TOC entry 1914 (class 2606 OID 41653)
+-- Name: itens_requisicoes_itens_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY itens_requisicoes
+    ADD CONSTRAINT itens_requisicoes_itens_id_fkey FOREIGN KEY (itens_id) REFERENCES itens(id);
+
+
+--
+-- TOC entry 1915 (class 2606 OID 41658)
+-- Name: itens_requisicoes_requisicao_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY itens_requisicoes
+    ADD CONSTRAINT itens_requisicoes_requisicao_id_fkey FOREIGN KEY (requisicao_id) REFERENCES requisicoes(id);
+
+
+--
+-- TOC entry 1913 (class 2606 OID 41639)
+-- Name: itens_rubrica_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY itens
+    ADD CONSTRAINT itens_rubrica_id_fkey FOREIGN KEY (rubrica_id) REFERENCES rubricas(id);
+
+
+--
+-- TOC entry 1916 (class 2606 OID 41694)
+-- Name: orc_contab_departamento_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY orc_contab
+    ADD CONSTRAINT orc_contab_departamento_id_fkey FOREIGN KEY (departamento_id) REFERENCES departamentos(id);
+
+
+--
+-- TOC entry 1917 (class 2606 OID 41689)
+-- Name: orc_contab_orcamento_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY orc_contab
+    ADD CONSTRAINT orc_contab_orcamento_id_fkey FOREIGN KEY (orcamento_id) REFERENCES orcamentos(id);
+
+
+--
+-- TOC entry 1919 (class 2606 OID 41704)
+-- Name: orc_contab_periodo_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY orc_contab
+    ADD CONSTRAINT orc_contab_periodo_id_fkey FOREIGN KEY (periodo_id) REFERENCES periodos(id);
+
+
+--
+-- TOC entry 1918 (class 2606 OID 41699)
+-- Name: orc_contab_rubrica_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY orc_contab
+    ADD CONSTRAINT orc_contab_rubrica_id_fkey FOREIGN KEY (rubrica_id) REFERENCES rubricas(id);
+
+
+--
+-- TOC entry 1910 (class 2606 OID 41607)
+-- Name: requisicoes_departamento_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY requisicoes
+    ADD CONSTRAINT requisicoes_departamento_id_fkey FOREIGN KEY (departamento_id) REFERENCES departamentos(id);
+
+
+--
+-- TOC entry 1912 (class 2606 OID 41617)
+-- Name: requisicoes_func_aprovador_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY requisicoes
+    ADD CONSTRAINT requisicoes_func_aprovador_id_fkey FOREIGN KEY (func_aprovador_id) REFERENCES funcionarios(id);
+
+
+--
+-- TOC entry 1911 (class 2606 OID 41612)
+-- Name: requisicoes_func_lancador_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY requisicoes
+    ADD CONSTRAINT requisicoes_func_lancador_id_fkey FOREIGN KEY (func_lancador_id) REFERENCES funcionarios(id);
+
+
+--
+-- TOC entry 2051 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2014-04-28 10:36:47
+
+--
+-- PostgreSQL database dump complete
+--
+
