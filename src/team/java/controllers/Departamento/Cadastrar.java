@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.HTML;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 
 import team.java.dao.DepartamentoDAO;
 import team.java.domain.Departamento;
@@ -27,22 +30,26 @@ public class Cadastrar extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String nome = request.getParameter("nome");	
-//		String descricao = request.getParameter("descricao");
+		String nome = request.getParameter("nome");
+		String chefe_id = request.getParameter("chefe_id");
+		String descricao = request.getParameter("descricao");
+		
 
 		Departamento departamento = new Departamento();
 		
 		departamento.setNome(nome);
-//		departamento.setDescricao(descricao);
+		departamento.setChefeId(Long.parseLong(chefe_id));
+		departamento.setDescricao(descricao);
 
 		try {
 			
-			ObjDao.create(departamento, request, response);
+			departamento = ObjDao.create(departamento, request, response);
+			
 			request.setAttribute("successMessage",
 					"Departamento cadastrado com sucesso!");
 			
 			getServletConfig().getServletContext()
-			.getRequestDispatcher("index")
+			.getRequestDispatcher("/departamento/index")
 			.forward(request, response);
 			
 		} catch (Exception e) {

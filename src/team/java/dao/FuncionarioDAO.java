@@ -107,14 +107,12 @@ public class FuncionarioDAO {
 
 	public List<Funcionario> getAll(String param) throws Exception {
 		
-		String sql = "SELECT * FROM funcionarios WHERE nome ILIKE '%?%' ";
-
+		String sql = "SELECT * FROM funcionarios WHERE nome ilike '%"+param+"%' ";
 		try {
+			
 			List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 
-			PreparedStatement stmt = this.con.prepareStatement(sql);
-			stmt.setString(1, param);
-			
+			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {

@@ -30,7 +30,6 @@ public class Index extends HttpServlet {
 		
 		String nome = req.getParameter("nome");
 		
-
 		try {
 			FuncionarioDAO funcDAO = new FuncionarioDAO();
 			

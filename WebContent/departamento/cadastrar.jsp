@@ -82,7 +82,7 @@
 				%>
 
 				<form role="form" name="cadastrar" method="POST" action="cadastrar">
-					<input type="hidden" name="chefe_id"/>
+					<input type="hidden" name="chefe_id" id="chefe_id" />
 					<div class="col-md-12">
 						<div class="form-group col-md-4">
 							<label for="nome">Nome</label> <input type="text"
@@ -93,7 +93,7 @@
 						<div class="form-group col-md-8">
 							<label for="chefe">Chefe do Departamento</label> <input type="text"
 								class="form-control" id="chefe" name="chefe"
-								value="${departamento.chefe_nome}"
+								value=""
 								placeholder="Entre o nome do funcionario e aguarde a lista.">
 						</div>
 						<br />
@@ -117,27 +117,24 @@
 	</div>
 </body>
 
-
 <script type="text/javascript">
 $(document).ready(function() {
     $('#chefe').autocomplete({
         source: "/orcamento-java/funcionario/autocomplete",
-        type: "POST",
+        type: "post",
         dataType: "json",
         data: {
             'term': $('#chefe').val()
         },
         minLength: 2,
-        label: 'name',
-        value: 'name',
+        label: 'label',
+        value: 'value',
         open: function() {
 //            $('.ui-autocomplete').css('z-index', "1060 !important");
         },
         select: function(e, ui) {
-        	console.log(e);
-        	console.log(ui);
-            $('#chefe').val(ui.item.nome);
-            $('#chefe_id').val(ui.item.id);
+        	$('#chefe').val(ui.item.value);
+            $('#chefe_id').val(ui.item.func_id);
             return false;
         }
     }).blur(function() {

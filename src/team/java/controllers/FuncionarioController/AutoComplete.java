@@ -1,7 +1,6 @@
 package team.java.controllers.FuncionarioController;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,7 +15,6 @@ import org.json.JSONObject;
 import team.java.dao.FuncionarioDAO;
 import team.java.domain.Funcionario;
 
-import com.google.gson.Gson;
 
 @WebServlet("/funcionario/autocomplete/*")
 public class AutoComplete extends HttpServlet {
@@ -42,8 +40,11 @@ public class AutoComplete extends HttpServlet {
 	            for (Funcionario funcionario: listaFunionarios)
 	            {
 	                JSONObject jsonObject = new JSONObject();
+	                
 	                jsonObject.put("label", funcionario.getNome());
+	                jsonObject.put("func_id", funcionario.getId());
 	                jsonObject.put("value", funcionario.getNome());
+	                
 	                lista.put(jsonObject);
 	            }
 	 
@@ -60,4 +61,26 @@ public class AutoComplete extends HttpServlet {
 	 
 	        lista = null;
 	    }
+	  
+	  @Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		  try {
+			executa(req, resp);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	  
+	  @Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		  try {
+			executa(req, resp);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

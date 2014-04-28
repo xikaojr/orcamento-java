@@ -27,7 +27,7 @@ private Connection con = Conexao.getConnection();
 			HttpServletResponse response) throws Exception{
 		
 		
-		String sql = "INSERT INTO departamentos (nome) VALUES (?)";
+		String sql = "INSERT INTO departamentos (nome, descricao, chefe_id) VALUES (?,?,?)";
 		PreparedStatement preparador = con.prepareStatement(sql);
 
 		try {
@@ -36,7 +36,8 @@ private Connection con = Conexao.getConnection();
 				throw new Exception("Nome é obrigatório");
 
 			preparador.setString(1, departamento.getNome());
-//			preparador.setString(2, departamento.getDescricao().toString());
+			preparador.setString(2, departamento.getDescricao());
+			preparador.setLong(3, departamento.getChefeId());
 
 			preparador.execute();
 			preparador.close();

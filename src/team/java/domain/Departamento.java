@@ -1,12 +1,10 @@
 package team.java.domain;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
-
 public class Departamento {
 	
 	private Long Id;
 	private String Nome;
-	private Text Descricao;
+	private String Descricao;
 	private Long Chefe_id;
 	private String Chefe_Nome;
 	
@@ -42,11 +40,11 @@ public class Departamento {
 		this.Nome = Nome;
 	}
 	
-	public Text getDescricao(){
+	public String getDescricao(){
 		return Descricao;
 	}
 	
-	public void setDescricao(Text Descricao){
+	public void setDescricao(String Descricao){
 		this.Descricao = Descricao;
 	}
 	

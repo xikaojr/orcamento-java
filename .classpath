@@ -16,7 +16,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hibernate"/>
 	<classpathentry kind="lib" path="C:/Users/Devel/Downloads/google-gson-2.2.4-release.zip"/>
-	<classpathentry kind="lib" path="C:/Users/Devel/Desktop/google-gson-2.2.4/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Devel/Desktop/java-json.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/java-json.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
