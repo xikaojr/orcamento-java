@@ -4,7 +4,7 @@ public class Rubrica {
 	
 	private Long Id;
 	private String Nome;
-	private Character Tipo;
+	private String Tipo;
 	
 	public Long getId() {
 		return Id;
@@ -18,12 +18,12 @@ public class Rubrica {
 	public void setNome(String nome) {
 		Nome = nome;
 	}
-	public Character getTipo() {
+	public String getTipo() {
 		return Tipo;
 	}
-	public void setTipo(Character tipo) {
+	public void setTipo(String tipo) {
 		Tipo = tipo;
 	}
-		
+			
 	
 }

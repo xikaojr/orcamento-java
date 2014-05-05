@@ -1,10 +1,5 @@
-<%@page import="team.java.domain.Funcionario"%>
-<%@page import="javax.swing.text.MaskFormatter"%>
 <%@taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
-<%@page import="team.java.domain.Departamento"%>
-<%@page import="java.util.*"%>
-
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -15,28 +10,6 @@
 <link href="../css/Bootstrap.min.css" rel="stylesheet">
 <link href="../css/geral.css" rel="stylesheet">
 
-<script src="validator.js"></script>
-
-<!-- ATIVANDO JQUERY -->
-<script src="../assets/jquery-2.0.2.js"></script>
-
-
-<!-- CHOSEN 0.14-->
-<link href="../assets/chosen-0.14.0/chosen.css" rel="stylesheet">
-<script src="../assets/chosen-0.14.0/chosen.jquery.js"></script>
-
-<!-- ATIVANDO O CHOSEN -->
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('.chzn-select').chosen({
-			width : "100%",
-			height : "100%"
-		});
-	});
-</script>
-
-
-
 <!-- fontawesome-4.0.3 core CSS -->
 <link href="../assets/font-awesome-4.0.3/css/font-awesome.min.css"
 	rel="stylesheet">
@@ -44,24 +17,14 @@
 <!-- Custom styles for this template -->
 <link href="../css/Navbar.css" rel="stylesheet">
 
+<script src="../assets/jquery-2.0.2.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-<title>Cadastro de Funcionário</title>
+
+<title>Cadastro de Rubrica</title>
 </head>
-
-
-<%!ArrayList<Departamento> listDepartamento = null;%>
-<%
-	listDepartamento = (ArrayList<Departamento>) request
-			.getAttribute("departamentos");
-		
-	Funcionario funcionario = null;
-	if(request.getSession().getAttribute("funcionario") != null)
-	{
-		funcionario = (Funcionario)request.getSession().getAttribute("funcionario");		
-	}
-%>
-
-
 <body>
 	<div class="container">
 		<!-- Static navbar -->
@@ -78,9 +41,9 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li class=""><a href="index">Funcionarios</a></li>
-						<li><a href="#">Link</a></li>
-						<li><a href="#">Link</a></li>
+						<li class=""><a href="/orcamento-java/funcionario/index">Funcionarios</a></li>
+						<li class=""><a href="/orcamento-java/departamento/index">Departamentos</a></li>
+						<li class="active"><a href="index">Rubricas</a></li>
 						<!--               <li class="dropdown"> -->
 						<!--                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros <b class="caret"></b></a> -->
 						<!--                 <ul class="dropdown-menu"> -->
@@ -107,7 +70,7 @@
 		<div class="container bs-docs-container">
 			<div class="row" role="main">
 				<div class="col-md-12">
-					<h1 id="overview" class="page-header">Cadastro de Funcionário</h1>
+					<h1 id="overview" class="page-header">Cadastro de Rubrica</h1>
 				</div>
 
 				<%
@@ -121,73 +84,24 @@
 				%>
 
 				<form role="form" name="cadastrar" method="POST" action="cadastrar">
+					<input type="hidden" name="chefe_id" id="chefe_id" />
 					<div class="col-md-12">
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-10">
 							<label for="nome">Nome</label> <input type="text"
 								class="form-control" id="nome" name="nome"
-								value="${funcionario.nome}" required autofocus
-								placeholder="Entre com seu nome">
+								value="${rubrica.nome}"
+								placeholder="Entre como o nome">
 						</div>
-						<div class="form-group col-md-4">
-							<label for="login">Login</label> <input type="text"
-								class="form-control" id="login" name="login"
-								value="${funcionario.login}" required placeholder="Login">
-						</div>
-						<div class="form-group col-md-4">
-							<label for="password">Password</label> <input type="password"
-								class="form-control" id="password" name="password"
-								value="${funcionario.senha}" required placeholder="Password">
-						</div>
-					</div>
-
-					<div class="col-md-12">
-						<div class="form-group col-md-4">
-							<label for="departamento_id">Departamento</label> <select
-								class="chzn-select form-control" name="departamento_id"
-								id="departamento_id">
-								<%
-									if (listDepartamento != null) {
-										for (int i = 0; i < listDepartamento.size(); i++) {
-								%>
-								<option value="<%=listDepartamento.get(i).getId()%>">
-									<%=listDepartamento.get(i).getNome()%>
-								</option>
-								<%
-										}
-									}
-								%>
+						<div class="form-group col-md-2">
+							<label for="tipo">Tipo de Rubrica</label> 
+							<select name="tipo" class="chzn-select form-control">
+								<option value="D">D</option>
+								<option value="R">R</option>
+								<option value="I">I</option>
 							</select>
 						</div>
-						<div class="form-group col-md-4">
-							<label for="email">Email</label> <input class="form-control"
-								type="text" value="${funcionario.email}" name="email" id="email" />
-						</div>
-						<div class="form-group col-md-2">
-							<label for="nascimento">Data de Nascimento</label> <input
-								class="form-control"
-								value="${funcionario.nascimento}"
-								type="text" name="nascimento"
-								onkeypress="MascaraData(cadastrar.nascimento);"
-								id="nascimento" />
-						</div>
-						<div class="form-group col-md-2">
-							<label for="cpf">Cpf</label> <input class="form-control"
-								type="text" name="cpf" id="cpf"
-								value="${funcionario.cpf}"
-								onkeypress="MascaraCPF(cadastrar.cpf);"
-								onblur="ValidarCPF(cadastrar.cpf)" />
-						</div>
+						<br />
 					</div>
-
-					<div class="col-md-12">
-						<div class="form-group col-md-8">
-							<label for="endereco">Endereço</label> <input
-								class="form-control"
-								value="${funcionario.endereco}"
-								type="text" name="endereco" id="endereco" />
-						</div>
-					</div>
-
 					<div class="col-md-12">
 						<div class="form-groud col-md-6">
 							<button type="submit" class="btn btn-default">Enviar</button>
@@ -199,4 +113,5 @@
 		</div>
 	</div>
 </body>
+
 </html>

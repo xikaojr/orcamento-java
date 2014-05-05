@@ -1,4 +1,4 @@
-package team.java.controllers.Departamento;
+package Rubrica;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,13 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import team.java.dao.DepartamentoDAO;
+import team.java.dao.RubricaDAO;
 import team.java.domain.Departamento;
+import team.java.domain.Rubrica;
 
-@WebServlet(name = "DepartamentoIndex", urlPatterns = "/departamento/index")
-public class Index extends HttpServlet {
+@WebServlet(name = "RubricaIndex", 
+urlPatterns = {"/rubrica/index"})
 
+public class Index extends HttpServlet{
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public Index() {
 		// TODO Auto-generated constructor stub
 	}
@@ -26,14 +33,13 @@ public class Index extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String nome = req.getParameter("nome");
-		
 
 		try {
-			DepartamentoDAO ObjDAO = new DepartamentoDAO();
+			RubricaDAO ObjDAO = new RubricaDAO();
 			
-			List<Departamento> departamentos = ObjDAO.getAll();
+			List<Rubrica> rubricas = ObjDAO.getAll();
 			
-			req.setAttribute("departamentos", departamentos);
+			req.setAttribute("rubricas", rubricas);
 			req.getRequestDispatcher("index.jsp").forward(req,resp);
 
 		} catch (Exception e) {
@@ -53,5 +59,7 @@ public class Index extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
+
+	
 
 }

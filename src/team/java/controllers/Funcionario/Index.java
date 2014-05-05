@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import team.java.dao.FuncionarioDAO;
 import team.java.domain.Funcionario;
 
-@WebServlet(name = "ListFuncionario", urlPatterns = "/funcionario/index")
+@WebServlet(name = "FuncionarioIndex", urlPatterns = "/funcionario/index")
 public class Index extends HttpServlet {
 
 	/**
@@ -41,7 +41,6 @@ public class Index extends HttpServlet {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.getMessage();
-			System.out.println(e.getMessage());			
 			req.getRequestDispatcher("index.jsp").forward(req,resp);
 		}
 

@@ -46,19 +46,26 @@
 
 
 <title>Cadastro de Funcionário</title>
+
+<%
+
+Funcionario funcionario = null;
+if(request.getSession().getAttribute("funcionario") != null)
+{
+	funcionario = (Funcionario)request.getSession().getAttribute("funcionario");		
+}else{
+	response.sendRedirect("/orcamento-java/login.jsp");
+}
+
+%>
+
 </head>
 
 
 <%!ArrayList<Departamento> listDepartamento = null;%>
 <%
 	listDepartamento = (ArrayList<Departamento>) request
-			.getAttribute("departamentos");
-		
-	Funcionario funcionario = null;
-	if(request.getSession().getAttribute("funcionario") != null)
-	{
-		funcionario = (Funcionario)request.getSession().getAttribute("funcionario");		
-	}
+			.getAttribute("departamentos");	
 %>
 
 
@@ -120,23 +127,23 @@
 					}
 				%>
 
-				<form role="form" name="cadastrar" method="POST" action="cadastrar">
+				<form role="form" name="editar" method="POST" action="cadastrar">
 					<div class="col-md-12">
 						<div class="form-group col-md-4">
 							<label for="nome">Nome</label> <input type="text"
 								class="form-control" id="nome" name="nome"
-								value="${funcionario.nome}" required autofocus
+								value="<%=funcionario.getNome() %>" required autofocus
 								placeholder="Entre com seu nome">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="login">Login</label> <input type="text"
 								class="form-control" id="login" name="login"
-								value="${funcionario.login}" required placeholder="Login">
+								value="<%=funcionario.getLogin() %>" required placeholder="Login">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="password">Password</label> <input type="password"
 								class="form-control" id="password" name="password"
-								value="${funcionario.senha}" required placeholder="Password">
+								value="<%=funcionario.getSenha() %> %>" required placeholder="Password">
 						</div>
 					</div>
 
@@ -160,31 +167,33 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="email">Email</label> <input class="form-control"
-								type="text" value="${funcionario.email}" name="email" id="email" />
+								type="text" name="email" id="email" value="<%=funcionario.getEmail() %>" />
 						</div>
 						<div class="form-group col-md-2">
 							<label for="nascimento">Data de Nascimento</label> <input
 								class="form-control"
-								value="${funcionario.nascimento}"
 								type="text" name="nascimento"
 								onkeypress="MascaraData(cadastrar.nascimento);"
-								id="nascimento" />
+								id="nascimento"
+								value="<%=funcionario.getDataNascimento() %>" />
 						</div>
 						<div class="form-group col-md-2">
 							<label for="cpf">Cpf</label> <input class="form-control"
 								type="text" name="cpf" id="cpf"
-								value="${funcionario.cpf}"
 								onkeypress="MascaraCPF(cadastrar.cpf);"
-								onblur="ValidarCPF(cadastrar.cpf)" />
+								onblur="ValidarCPF(cadastrar.cpf)" 
+								value="<%=funcionario.getCpf()%>"/>
 						</div>
 					</div>
 
 					<div class="col-md-12">
 						<div class="form-group col-md-8">
 							<label for="endereco">Endereço</label> <input
-								class="form-control"
-								value="${funcionario.endereco}"
-								type="text" name="endereco" id="endereco" />
+								class="form-control" 
+								type="text"
+								value="<%=funcionario.getEndereco() %>" 
+								name="endereco" 
+								id="endereco" />
 						</div>
 					</div>
 

@@ -113,7 +113,6 @@ public class Login extends HttpServlet{
 			funcionario.setEmail(res.getString("email"));
 			funcionario.setDeptoId(res.getLong("departamento_id"));
 			funcionario.setDataNascimento(res.getDate("nascimento"));
-			funcionario.setChefeDepto(res.getBoolean("chefe_dpto"));
 			
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());

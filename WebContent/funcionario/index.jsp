@@ -67,9 +67,9 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="funcionario/index">Funcionarios</a></li>
+						<li class="active"><a href="index">Funcionarios</a></li>
 						<li><a href="/orcamento-java/departamento/index">Departamentos</a></li>
-						<li><a href="#">Link</a></li>
+						<li><a href="/orcamento-java/rubrica/index">Rubricas</a></li>
 						<!--               <li class="dropdown"> -->
 						<!--                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros <b class="caret"></b></a> -->
 						<!--                 <ul class="dropdown-menu"> -->

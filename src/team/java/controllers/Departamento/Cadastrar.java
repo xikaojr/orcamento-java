@@ -14,7 +14,8 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 import team.java.dao.DepartamentoDAO;
 import team.java.domain.Departamento;
 
-@WebServlet(name = "Departamento", urlPatterns = "/departamento/cadastrar")
+@WebServlet(name = "Departamento", 
+	urlPatterns = {"/departamento/cadastrar","/departamento/editar"})
 
 public class Cadastrar extends HttpServlet{
 
