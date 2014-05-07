@@ -27,7 +27,6 @@ public class Login extends HttpServlet{
 		// TODO Auto-generated constructor stub
 	}
 	
-	
 	private Connection con = Conexao.getConnection();
 
 	protected void doPost(HttpServletRequest request,
@@ -35,7 +34,7 @@ public class Login extends HttpServlet{
 
 		String login = request.getParameter("login");
 		String senha = request.getParameter("senha");
-
+		
 		Funcionario funcionario = new Funcionario();
 		
 		try {
@@ -113,6 +112,7 @@ public class Login extends HttpServlet{
 			funcionario.setEmail(res.getString("email"));
 			funcionario.setDeptoId(res.getLong("departamento_id"));
 			funcionario.setDataNascimento(res.getDate("nascimento"));
+			funcionario.setCpf(res.getString("cpf"));
 			
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());

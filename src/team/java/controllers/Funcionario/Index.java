@@ -28,12 +28,17 @@ public class Index extends HttpServlet {
 			HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String nome = req.getParameter("nome");
+		String term = req.getParameter("term");
 		
 		try {
 			FuncionarioDAO funcDAO = new FuncionarioDAO();
+			List<Funcionario> funcionarios = null;
 			
-			List<Funcionario> funcionarios = funcDAO.getAll();
+			if(term == null){
+				funcionarios = funcDAO.getAll();				
+			}else{
+				funcionarios = funcDAO.getAll(term);
+			}
 			
 			req.setAttribute("funcionarios", funcionarios);
 			req.getRequestDispatcher("index.jsp").forward(req,resp);

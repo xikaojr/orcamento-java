@@ -2,9 +2,11 @@
 <%@page import="javax.swing.text.MaskFormatter"%>
 <%@taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%@page import="team.java.domain.Departamento"%>
 <%@page import="java.util.*"%>
-
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -12,98 +14,37 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="../css/Bootstrap.min.css" rel="stylesheet">
-<link href="../css/geral.css" rel="stylesheet">
+<title>Cadastro de Funcionário</title>
 
-<script src="validator.js"></script>
+<c:import url="/imports.jsp" />
 
-<!-- ATIVANDO JQUERY -->
-<script src="../assets/jquery-2.0.2.js"></script>
-
-
-<!-- CHOSEN 0.14-->
-<link href="../assets/chosen-0.14.0/chosen.css" rel="stylesheet">
-<script src="../assets/chosen-0.14.0/chosen.jquery.js"></script>
-
-<!-- ATIVANDO O CHOSEN -->
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.chzn-select').chosen({
-			width : "100%",
-			height : "100%"
-		});
+		$("li.funcionario").addClass('active');
 	});
 </script>
 
-
-
-<!-- fontawesome-4.0.3 core CSS -->
-<link href="../assets/font-awesome-4.0.3/css/font-awesome.min.css"
-	rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="../css/Navbar.css" rel="stylesheet">
-
-
-<title>Cadastro de Funcionário</title>
 </head>
 
-
-<%!ArrayList<Departamento> listDepartamento = null;%>
 <%
-	listDepartamento = (ArrayList<Departamento>) request
-			.getAttribute("departamentos");
-		
+	ArrayList<Departamento> listDepartamento = null;
 	Funcionario funcionario = null;
-	if(request.getSession().getAttribute("funcionario") != null)
-	{
-		funcionario = (Funcionario)request.getSession().getAttribute("funcionario");		
+
+	if (request.getAttribute("departamentos") != null) {
+		listDepartamento = (ArrayList<Departamento>) request
+				.getAttribute("departamentos");
+	}
+
+	if (request.getSession().getAttribute("funcionario") != null) {
+		funcionario = (Funcionario) request.getSession().getAttribute(
+				"funcionario");
 	}
 %>
 
 
 <body>
 	<div class="container">
-		<!-- Static navbar -->
-		<div class="navbar navbar-default" role="navigation">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="/orcamento-java/index.html">JBudget</a>
-				</div>
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li class=""><a href="index">Funcionarios</a></li>
-						<li><a href="#">Link</a></li>
-						<li><a href="#">Link</a></li>
-						<!--               <li class="dropdown"> -->
-						<!--                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros <b class="caret"></b></a> -->
-						<!--                 <ul class="dropdown-menu"> -->
-						<!--                   <li><a href="#">Action</a></li> -->
-						<!--                   <li><a href="#">Another action</a></li> -->
-						<!--                   <li><a href="#">Something else here</a></li> -->
-						<!--                   <li class="divider"></li> -->
-						<!--                   <li class="dropdown-header">Nav header</li> -->
-						<!--                   <li><a href="#">Separated link</a></li> -->
-						<!--                   <li><a href="#">One more separated link</a></li> -->
-						<!--                 </ul> -->
-						<!--               </li> -->
-					</ul>
-					<!-- 					<ul class="nav navbar-nav navbar-right"> -->
-					<!-- 						<li class="active"><a href="./">Default</a></li> -->
-					<!-- 						<li><a href="../navbar-static-top/">Static top</a></li> -->
-					<!-- 						<li><a href="../navbar-fixed-top/">Fixed top</a></li> -->
-					<!-- 					</ul> -->
-				</div>
-				<!--/.nav-collapse -->
-			</div>
-			<!--/.container-fluid -->
-		</div>
+		<c:import url="/navbar.html"></c:import>
 		<div class="container bs-docs-container">
 			<div class="row" role="main">
 				<div class="col-md-12">
@@ -142,20 +83,13 @@
 
 					<div class="col-md-12">
 						<div class="form-group col-md-4">
+							<jsp:useBean id="Deptdao" class="team.java.dao.DepartamentoDAO" />
 							<label for="departamento_id">Departamento</label> <select
 								class="chzn-select form-control" name="departamento_id"
 								id="departamento_id">
-								<%
-									if (listDepartamento != null) {
-										for (int i = 0; i < listDepartamento.size(); i++) {
-								%>
-								<option value="<%=listDepartamento.get(i).getId()%>">
-									<%=listDepartamento.get(i).getNome()%>
-								</option>
-								<%
-										}
-									}
-								%>
+								<c:forEach var="dpto" items="${Deptdao.getAll()}">
+									<option value="${dpto.id}">${dpto.nome}</option>
+								</c:forEach>
 							</select>
 						</div>
 						<div class="form-group col-md-4">
@@ -164,17 +98,14 @@
 						</div>
 						<div class="form-group col-md-2">
 							<label for="nascimento">Data de Nascimento</label> <input
-								class="form-control"
-								value="${funcionario.nascimento}"
-								type="text" name="nascimento"
-								onkeypress="MascaraData(cadastrar.nascimento);"
-								id="nascimento" />
+								class="form-control" maxlength="10"
+								value="${funcionario.nascimento}" type="text" name="nascimento"
+								onkeypress="MascaraData(cadastrar.nascimento);" id="nascimento" />
 						</div>
 						<div class="form-group col-md-2">
 							<label for="cpf">Cpf</label> <input class="form-control"
-								type="text" name="cpf" id="cpf"
-								value="${funcionario.cpf}"
-								onkeypress="MascaraCPF(cadastrar.cpf);"
+								type="text" name="cpf" id="cpf" value="${funcionario.cpf}"
+								maxlength="14" onkeypress="MascaraCPF(cadastrar.cpf);"
 								onblur="ValidarCPF(cadastrar.cpf)" />
 						</div>
 					</div>
@@ -182,9 +113,8 @@
 					<div class="col-md-12">
 						<div class="form-group col-md-8">
 							<label for="endereco">Endereço</label> <input
-								class="form-control"
-								value="${funcionario.endereco}"
-								type="text" name="endereco" id="endereco" />
+								class="form-control" value="${funcionario.endereco}" type="text"
+								name="endereco" id="endereco" />
 						</div>
 					</div>
 

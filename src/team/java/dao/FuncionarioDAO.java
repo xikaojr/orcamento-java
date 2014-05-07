@@ -31,7 +31,7 @@ public class FuncionarioDAO {
 				+ "(departamento_id, nome, email, endereco,"
 				+ " nascimento, login, senha, cpf) "
 				+ " VALUES (?,?,?,?,?,?,?,?)";
-		
+
 		PreparedStatement preparador = con.prepareStatement(sql);
 
 		try {
@@ -42,9 +42,9 @@ public class FuncionarioDAO {
 				throw new Exception("Login é obrigatório");
 			if (funcionario.getSenha().isEmpty())
 				throw new Exception("Senha é obrigatório");
-			
+
 			preparador = prepareFields(preparador, funcionario);
-			
+
 			if (verificaLogin(funcionario.getLogin())) {
 				throw new Exception("Este Login (" + funcionario.getLogin()
 						+ ") já esta sendo usado por favor escolha outro!");
@@ -61,12 +61,12 @@ public class FuncionarioDAO {
 		return funcionario;
 	}
 
-	private PreparedStatement prepareFields(PreparedStatement preparador
-			, Funcionario f) throws Exception {
-		
+	private PreparedStatement prepareFields(PreparedStatement preparador,
+			Funcionario f) throws Exception {
+
 		try {
-			
-			preparador.setLong  (1, f.getDeptoId());
+
+			preparador.setLong(1, f.getDeptoId());
 			preparador.setString(2, f.getNome());
 			preparador.setString(3, f.getEmail());
 			preparador.setString(4, f.getEndereco());
@@ -74,12 +74,12 @@ public class FuncionarioDAO {
 			preparador.setString(6, f.getLogin());
 			preparador.setString(7, f.getSenha());
 			preparador.setString(8, f.getCpf());
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new Exception(e.getMessage());
 		}
-		
+
 		return preparador;
 	}
 
@@ -90,14 +90,16 @@ public class FuncionarioDAO {
 		try {
 			List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 
-			PreparedStatement stmt = this.con.prepareStatement(sql);
+			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				Funcionario funcionario = new Funcionario();
 
+				funcionario.setId(rs.getLong("id"));
 				funcionario.setNome(rs.getString("nome"));
 				funcionario.setLogin(rs.getString("login"));
+				funcionario.setEmail(rs.getString("email"));
 				funcionarios.add(funcionario);
 			}
 
@@ -131,10 +133,11 @@ public class FuncionarioDAO {
 	}
 
 	public List<Funcionario> getAll(String param) throws Exception {
-		
-		String sql = "SELECT * FROM funcionarios WHERE nome ilike '%"+param+"%' ";
+
+		String sql = "SELECT * FROM funcionarios WHERE nome ilike '%" + param
+				+ "%' ";
 		try {
-			
+
 			List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -154,6 +157,48 @@ public class FuncionarioDAO {
 			return funcionarios;
 
 		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	public Funcionario getById(Integer objeto) throws Exception {
+
+		String sql = "SELECT * FROM funcionarios WHERE id = " + objeto + "";
+		try {
+
+			Funcionario funcionario = new Funcionario();
+
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				this.setAttribsFuncionario(funcionario, rs);
+			}
+
+			rs.close();
+			stmt.close();
+
+			return funcionario;
+
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	public void setAttribsFuncionario(Funcionario funcionario, ResultSet res)
+			throws Exception {
+		try {
+
+			funcionario.setId(res.getLong("id"));
+			funcionario.setLogin(res.getString("login"));
+			funcionario.setNome(res.getString("nome"));
+			funcionario.setEndereco(res.getString("endereco"));
+			funcionario.setEmail(res.getString("email"));
+			funcionario.setDeptoId(res.getLong("departamento_id"));
+			funcionario.setDataNascimento(res.getDate("nascimento"));
+			funcionario.setCpf(res.getString("cpf"));
+
+		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
 	}

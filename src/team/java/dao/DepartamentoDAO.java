@@ -68,8 +68,8 @@ private Connection con = Conexao.getConnection();
 	        while (rs.next()){
 	        	Departamento departamento = new Departamento();
 	            
-	        	departamento.setNome(rs.getString("departamento"));
 	        	departamento.setId(rs.getLong("depto_id"));
+	        	departamento.setNome(rs.getString("departamento"));
 	        	departamento.setChefeNome(rs.getString("funcionario"));
 	        	departamento.setChefeId(rs.getLong("func_id"));
 	            departamentos.add(departamento);

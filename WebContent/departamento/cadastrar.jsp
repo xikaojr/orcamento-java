@@ -1,5 +1,6 @@
 <%@taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -7,65 +8,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="../css/Bootstrap.min.css" rel="stylesheet">
-<link href="../css/geral.css" rel="stylesheet">
-
-<!-- fontawesome-4.0.3 core CSS -->
-<link href="../assets/font-awesome-4.0.3/css/font-awesome.min.css"
-	rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="../css/Navbar.css" rel="stylesheet">
-
-<script src="../assets/jquery-2.0.2.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
-
+<c:import url="/imports.jsp" />
 <title>Cadastro de Departamento</title>
 </head>
 <body>
 	<div class="container">
-		<!-- Static navbar -->
-		<div class="navbar navbar-default" role="navigation">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="/orcamento-java/index.html">JBudget</a>
-				</div>
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li class=""><a href="/orcamento-java/funcionario/index">Funcionarios</a></li>
-						<li class=""><a href="index">Departamentos</a></li>
-						<!--               <li class="dropdown"> -->
-						<!--                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros <b class="caret"></b></a> -->
-						<!--                 <ul class="dropdown-menu"> -->
-						<!--                   <li><a href="#">Action</a></li> -->
-						<!--                   <li><a href="#">Another action</a></li> -->
-						<!--                   <li><a href="#">Something else here</a></li> -->
-						<!--                   <li class="divider"></li> -->
-						<!--                   <li class="dropdown-header">Nav header</li> -->
-						<!--                   <li><a href="#">Separated link</a></li> -->
-						<!--                   <li><a href="#">One more separated link</a></li> -->
-						<!--                 </ul> -->
-						<!--               </li> -->
-					</ul>
-					<!-- 					<ul class="nav navbar-nav navbar-right"> -->
-					<!-- 						<li class="active"><a href="./">Default</a></li> -->
-					<!-- 						<li><a href="../navbar-static-top/">Static top</a></li> -->
-					<!-- 						<li><a href="../navbar-fixed-top/">Fixed top</a></li> -->
-					<!-- 					</ul> -->
-				</div>
-				<!--/.nav-collapse -->
-			</div>
-			<!--/.container-fluid -->
-		</div>
+		<c:import url="/navbar.html"/>
 		<div class="container bs-docs-container">
 			<div class="row" role="main">
 				<div class="col-md-12">
@@ -131,7 +79,7 @@ $(document).ready(function() {
         label: 'label',
         value: 'value',
         open: function() {
-//            $('.ui-autocomplete').css('z-index', "1060 !important");
+           $('.ui-autocomplete').css('z-index', "1060 !important");
         },
         select: function(e, ui) {
         	$('#chefe').val(ui.item.value);

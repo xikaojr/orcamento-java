@@ -18,7 +18,9 @@
 			if (request.getAttribute("errorMessage") != null) {
 		%>
 		<div class="col-md-12">
-			<div class="alert alert-danger">${errorMessage}</div>
+			<div class="alert alert-danger">
+				${errorMessage}
+			</div>
 		</div>
 		<%
 			}

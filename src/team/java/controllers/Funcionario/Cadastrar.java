@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import team.java.domain.Funcionario;
 import team.java.dao.FuncionarioDAO;
 
-@WebServlet(name = "Funcionario", urlPatterns = "/funcionario/cadastrar")
+@WebServlet(name = "Funcionario"
+	, urlPatterns = {"/funcionario/cadastrar", "/funcionario/editar"})
 public class Cadastrar extends HttpServlet {
 
 	/**
@@ -26,27 +27,6 @@ public class Cadastrar extends HttpServlet {
 	
 	public Cadastrar(){
 		// TODO Auto-generated constructor stub
-	}
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		DepartamentoDAO deptDAO = new DepartamentoDAO();
-		try {
-			
-			List<Departamento> departamentos = deptDAO.getAll();
-			
-			req.setAttribute("departamentos", departamentos);
-			
-		} catch (Exception e) {
-			e.getMessage();
-		}
-		
-		getServletConfig().getServletContext()
-				.getRequestDispatcher("/funcionario/cadastrar.jsp")
-				.forward(req, resp);
 	}
 	
 	protected void doPost(HttpServletRequest request,
