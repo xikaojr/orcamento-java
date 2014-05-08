@@ -35,9 +35,9 @@
 <jsp:useBean id="funcDao" class="team.java.dao.FuncionarioDAO" />
 
 <%
-	Integer objeto = Integer.parseInt(request
-			.getParameter("funcionario"));
+	Integer objeto = Integer.parseInt(request.getParameter("funcionario"));
 	Funcionario funcionario = null;
+	
 	if (objeto != null && objeto > 0) {
 		FuncionarioDAO objDao = new FuncionarioDAO();
 		funcionario = objDao.getById(objeto);
@@ -65,9 +65,11 @@
 					}
 				%>
 
-				<form role="form" name="editar" method="POST" action="cadastrar">
+				<form role="form" name="editar" method="POST" action="editar">
 					<div class="col-md-12">
 						<div class="form-group col-md-4">
+							<input type="hidden" name="id" value="<%=funcionario.getId()%>"/>
+							<input type="hidden" name="acao" value="editar"/>
 							<label for="nome">Nome</label> <input type="text"
 								class="form-control" id="nome" name="nome"
 								value="<%=funcionario.getNome()%>" required autofocus
@@ -77,12 +79,6 @@
 							<label for="login">Login</label> <input type="text"
 								class="form-control" id="login" name="login"
 								value="<%=funcionario.getLogin()%>" required placeholder="Login">
-						</div>
-						<div class="form-group col-md-4">
-							<label for="password">Password</label> <input type="password"
-								class="form-control" id="password" name="password"
-								value="<%=funcionario.getSenha()%> %>" required
-								placeholder="Password">
 						</div>
 					</div>
 
@@ -109,14 +105,14 @@
 								type="date" pattern="dd/MM/yyyy" />
 
 							<input class="form-control" type="text" name="nascimento"
-								onkeypress="MascaraData(cadastrar.nascimento);" id="nascimento"
+								onkeypress="MascaraData(editar.nascimento);" id="nascimento"
 								value="${formattedDate}" />
 						</div>
 						<div class="form-group col-md-2">
 							<label for="cpf">Cpf</label> <input class="form-control"
 								type="text" name="cpf" id="cpf"
-								onkeypress="MascaraCPF(cadastrar.cpf);"
-								onblur="ValidarCPF(cadastrar.cpf)"
+								onkeypress="MascaraCPF(editar.cpf);"
+								onblur="ValidarCPF(editar.cpf)"
 								value="<%=funcionario.getCpf()%>" />
 						</div>
 					</div>

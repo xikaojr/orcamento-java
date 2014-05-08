@@ -18,9 +18,6 @@ import team.java.domain.Funcionario;
 @WebServlet("/login")
 public class Login extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public Login() {
@@ -80,7 +77,6 @@ public class Login extends HttpServlet{
 				request.setAttribute("successMessage",
 						"Login realizado com sucesso, bom jogo!");
 				
-				//setando os valores para o objeto funcionário.
 				setAttribsFuncionario(funcionario, res);
 				
 				newSession(request, response, funcionario);

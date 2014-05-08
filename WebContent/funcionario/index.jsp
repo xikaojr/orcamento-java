@@ -16,7 +16,7 @@
 <title>JBudget</title>
 
 <script type="text/javascript">
-	$(document).ready(function(){
+	$(document).ready(function() {
 		$("li.funcionario").addClass('active');
 	});
 </script>
@@ -32,12 +32,32 @@
 				</a>
 			</h1>
 		</div>
-		<div class="jumbotron">
-			<form method="POST" action="index">
-				Buscar por nome: <input type="text" name="term" /> <input
-					type="submit" name="Search" /> <br />
-			</form>
+
+		<%
+			if (request.getAttribute("message") != null) {
+		%>
+		<div class="col-md-12">
+			<div class="alert alert-${tipoAlerta}">${message}</div>
 		</div>
+		<div class="clear"></div>
+		<%
+			}
+		%>
+		<form method="POST" action="index" role="form">
+			<fieldset>
+				<legend>Busca</legend>
+				<div class="col-md-5 form-group"">
+					<label for="term">Nome</label> <input type="text"
+						class="form-control" id="term" name="term" value=""
+						placeholder="Digite um nome para buscar">
+				</div>
+				<div class="col-md-3">
+					<input type="submit" name="Search" class="btn btn-primary"
+						style="margin-top: 25px;" />
+				</div>
+			</fieldset>
+		</form>
+		
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -47,23 +67,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<jsp:useBean id="dao" class="team.java.dao.FuncionarioDAO" />
-				<c:forEach var="funcionario" items="${dao.getAll()}">
+				<c:forEach var="dado" items="${funcionariosCadastrados}">
 					<tr>
-						<td>${funcionario.nome}</td>
-						<td>
-							<c:choose>
-									<c:when test="${not empty funcionario.email}">
-										<a href="mailto:${funcionario.email}">${funcionario.email}</a>
-									</c:when>
-									<c:otherwise>
+						<td>${dado.nome}</td>
+						<td><c:choose>
+								<c:when test="${not empty dado.email}">
+									<a href="mailto:${dado.email}">${dado.email}</a>
+								</c:when>
+								<c:otherwise>
 								    E-mail não informado
 								  </c:otherwise>
-							</c:choose>
-						</td>
-						<td><a href="editar.jsp?funcionario=${funcionario.id}" style="cursor: pointer;"> <i
-								class="fa fa-edit black" title="Editar"></i>
-						</a> &nbsp; <a href="#"style="cursor: pointer;"> <i
+							</c:choose></td>
+						<td><a href="editar.jsp?funcionario=${dado.id}"
+							style="cursor: pointer;"> <i class="fa fa-edit black"
+								title="Editar"></i>
+						</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
 								class="fa fa-sitemap alocar" title="Alocar em um Departamento"></i>
 						</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
 								class="fa fa-trash-o red" title="Deletar"></i>

@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Cadastro de Funcionário</title>
+<title>Cadastro de Funcionario</title>
 
 <c:import url="/imports.jsp" />
 
@@ -25,22 +25,6 @@
 </script>
 
 </head>
-
-<%
-	ArrayList<Departamento> listDepartamento = null;
-	Funcionario funcionario = null;
-
-	if (request.getAttribute("departamentos") != null) {
-		listDepartamento = (ArrayList<Departamento>) request
-				.getAttribute("departamentos");
-	}
-
-	if (request.getSession().getAttribute("funcionario") != null) {
-		funcionario = (Funcionario) request.getSession().getAttribute(
-				"funcionario");
-	}
-%>
-
 
 <body>
 	<div class="container">
@@ -66,18 +50,18 @@
 						<div class="form-group col-md-4">
 							<label for="nome">Nome</label> <input type="text"
 								class="form-control" id="nome" name="nome"
-								value="${funcionario.nome}" required autofocus
+								value="${dados.nome}" 
 								placeholder="Entre com seu nome">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="login">Login</label> <input type="text"
 								class="form-control" id="login" name="login"
-								value="${funcionario.login}" required placeholder="Login">
+								value="${dados.login}" required placeholder="Login">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="password">Password</label> <input type="password"
 								class="form-control" id="password" name="password"
-								value="${funcionario.senha}" required placeholder="Password">
+								value="${dados.senha}" required placeholder="Password">
 						</div>
 					</div>
 
@@ -94,17 +78,18 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="email">Email</label> <input class="form-control"
-								type="text" value="${funcionario.email}" name="email" id="email" />
+								type="text" value="${dados.email}" name="email" id="email" />
 						</div>
 						<div class="form-group col-md-2">
 							<label for="nascimento">Data de Nascimento</label> <input
 								class="form-control" maxlength="10"
-								value="${funcionario.nascimento}" type="text" name="nascimento"
+								value="" type="text" name="nascimento"
+								required
 								onkeypress="MascaraData(cadastrar.nascimento);" id="nascimento" />
 						</div>
 						<div class="form-group col-md-2">
 							<label for="cpf">Cpf</label> <input class="form-control"
-								type="text" name="cpf" id="cpf" value="${funcionario.cpf}"
+								type="text" name="cpf" id="cpf" value="${dados.cpf}"
 								maxlength="14" onkeypress="MascaraCPF(cadastrar.cpf);"
 								onblur="ValidarCPF(cadastrar.cpf)" />
 						</div>
@@ -113,7 +98,7 @@
 					<div class="col-md-12">
 						<div class="form-group col-md-8">
 							<label for="endereco">Endereço</label> <input
-								class="form-control" value="${funcionario.endereco}" type="text"
+								class="form-control" value="${dados.endereco}" type="text"
 								name="endereco" id="endereco" />
 						</div>
 					</div>

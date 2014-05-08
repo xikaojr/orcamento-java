@@ -55,7 +55,7 @@ public class FuncionarioDAO {
 
 		} catch (SQLException e) {
 			preparador.close();
-			throw new Exception(e.getMessage());
+			throw e;
 		}
 
 		return funcionario;
@@ -76,13 +76,13 @@ public class FuncionarioDAO {
 			preparador.setString(8, f.getCpf());
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new Exception(e.getMessage());
+			preparador.close();
+			throw e;
 		}
 
 		return preparador;
 	}
-
+	
 	public List<Funcionario> getAll() throws Exception {
 
 		String sql = "SELECT * FROM funcionarios";
@@ -109,7 +109,7 @@ public class FuncionarioDAO {
 			return funcionarios;
 
 		} catch (SQLException e) {
-			throw new Exception(e.getMessage());
+			throw e;
 		}
 	}
 
@@ -125,7 +125,7 @@ public class FuncionarioDAO {
 			res = preparador.executeQuery();
 
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw e;
 		}
 
 		return res.next() ? true : false;
@@ -146,8 +146,7 @@ public class FuncionarioDAO {
 			while (rs.next()) {
 				Funcionario funcionario = new Funcionario();
 
-				funcionario.setId(rs.getLong("id"));
-				funcionario.setNome(rs.getString("nome"));
+				this.setAttribsFuncionario(funcionario, rs);
 				funcionarios.add(funcionario);
 			}
 
@@ -156,8 +155,8 @@ public class FuncionarioDAO {
 
 			return funcionarios;
 
-		} catch (SQLException e) {
-			throw new Exception(e.getMessage());
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 
@@ -180,8 +179,8 @@ public class FuncionarioDAO {
 
 			return funcionario;
 
-		} catch (SQLException e) {
-			throw new Exception(e.getMessage());
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 
@@ -201,6 +200,52 @@ public class FuncionarioDAO {
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
+	}
+
+	public Funcionario edit(Funcionario funcionario,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception, SQLException {
+
+		String sql = "UPDATE funcionarios SET "
+				+ " departamento_id = ? ,  nome = ?, "
+				+ " email = ? ,  endereco = ?, "
+				+ " nascimento = ?,  login = ?, " + " cpf = ? "
+				+ " WHERE id = ?";
+
+		PreparedStatement preparador = con.prepareStatement(sql);
+
+		try {
+
+			if (funcionario.getNome().isEmpty())
+				throw new Exception("Nome é obrigatório");
+			if (funcionario.getLogin().isEmpty())
+				throw new Exception("Login é obrigatório");
+
+			if (funcionario.getLogin() != request.getParameter("login")) {
+				if (verificaLogin(funcionario.getLogin())) {
+					throw new Exception("Este Login (" + funcionario.getLogin()
+							+ ") já esta sendo usado, por favor escolha outro!");
+				}
+			}
+			
+			preparador.setLong(1, funcionario.getDeptoId());
+			preparador.setString(2, funcionario.getNome().trim());
+			preparador.setString(3, funcionario.getEmail().trim());
+			preparador.setString(4, funcionario.getEndereco().trim());
+			preparador.setDate(5, funcionario.getDataNascimento());
+			preparador.setString(6, funcionario.getLogin().trim());
+			preparador.setString(7, funcionario.getCpf().trim());
+			preparador.setLong(8, funcionario.getId());
+			
+			preparador.execute();			
+			preparador.close();
+
+		} catch (SQLException e) {
+			preparador.close();
+			throw e;
+		}
+
+		return funcionario;
 	}
 
 }

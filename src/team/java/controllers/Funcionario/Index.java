@@ -31,6 +31,7 @@ public class Index extends HttpServlet {
 		String term = req.getParameter("term");
 		
 		try {
+			
 			FuncionarioDAO funcDAO = new FuncionarioDAO();
 			List<Funcionario> funcionarios = null;
 			
@@ -40,7 +41,7 @@ public class Index extends HttpServlet {
 				funcionarios = funcDAO.getAll(term);
 			}
 			
-			req.setAttribute("funcionarios", funcionarios);
+			req.setAttribute("funcionariosCadastrados", funcionarios);
 			req.getRequestDispatcher("index.jsp").forward(req,resp);
 
 		} catch (Exception e) {

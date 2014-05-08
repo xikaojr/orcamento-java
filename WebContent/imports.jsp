@@ -13,12 +13,13 @@
 <!-- ATIVANDO JQUERY -->
 <script src="../assets/jquery-2.0.2.js"></script>
 <script src="../assets/jquery-ui-1.10.4/js/jquery-ui-1.10.4.js"></script>
-<script src="../assets/jquery-ui-1.10.4/css/ui-lightness/jquery-ui.css"></script>
 
-<script src="../js/bootstrap.min.js"></script>
 
+<script src="../javascript/bootstrap.min.js"></script>
 <link href="../css/Bootstrap.min.css" rel="stylesheet">
 <link href="../css/geral.css" rel="stylesheet">
+<link href="../assets/jquery-ui-1.10.4/css/ui-lightness/jquery-ui.css" rel="stylesheet">
+<link href="../assets/jquery-ui-1.10.4/css/ui-lightness/jquery.ui.autocomplete.css" rel="stylesheet">
 
 <!-- ATIVANDO VALIDADOR JS (data, cpf, cnpj, cep)  -->
 <script src="../javascript/validator.js"></script>

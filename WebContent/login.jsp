@@ -18,30 +18,29 @@
 			if (request.getAttribute("errorMessage") != null) {
 		%>
 		<div class="col-md-12">
-			<div class="alert alert-danger">
-				${errorMessage}
-			</div>
+			<div class="alert alert-danger">${errorMessage}</div>
 		</div>
 		<%
 			}
 		%>
-		
+
 		<%
-				Funcionario funcionario = new Funcionario();
-				if (request.getAttribute("funcionario") != null) {
-					funcionario = (Funcionario) request.getAttribute(
-							"funcionario");
-				}
+			Funcionario funcionario = new Funcionario();
+			if (request.getAttribute("funcionario") != null) {
+				funcionario = (Funcionario) request.getAttribute("funcionario");
+			}
 		%>
-			
+
 		<div style="clear: both"></div>
 		<form class="form-signin well" role="form" action="login"
 			method="POST">
 			<h2 class="form-signin-heading">Log in</h2>
 			<input type="text" name="login" class="form-control"
-				placeholder="Login" 
-				value="<%= (funcionario.getLogin() != null ? funcionario.getLogin() : "" ) %>" required autofocus> <br /> 
-				<input type="password" name="senha" class="form-control" placeholder="Senha" required >
+				placeholder="Login"
+				value="<%=(funcionario.getLogin() != null ? funcionario.getLogin()
+					: "")%>"
+				required autofocus> <br /> <input type="password"
+				name="senha" class="form-control" placeholder="Senha" required>
 			<div style="clear: both;"></div>
 			<div style="text-align: center;">
 				<button class="btn btn-lg btn-primary" title="Entrar" type="submit">Sign
@@ -49,6 +48,5 @@
 			</div>
 		</form>
 	</div>
-	<!-- /container -->
 </body>
 </html>

@@ -10,6 +10,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <c:import url="/imports.jsp" />
 <title>Cadastro de Departamento</title>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("li.departamento").addClass('active');
+	});
+</script>
+
 </head>
 <body>
 	<div class="container">

@@ -9,7 +9,7 @@ import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
 
 public class Funcionario {
-	
+
 	private Long Id;
 	private String Login;
 	private String Senha;
@@ -19,31 +19,43 @@ public class Funcionario {
 	private String Endereco;
 	private Date Nascimento;
 	private String Cpf;
-	
-	public Funcionario(){
-		
-	}
-	
-	public Funcionario(HttpServletRequest request) throws ParseException{
-		
-		this.Nome =  request.getParameter("nome");	
-		this.Login = request.getParameter("login");
-		this.Senha = request.getParameter("password");
-		this.Departamento_id = Long.parseLong(request.getParameter("departamento_id"));
-		this.Email = request.getParameter("email");
-		
-		
-	    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-		java.util.Date date = format.parse(request.getParameter("nascimento"));
-		java.sql.Date nascimento = new java.sql.Date(date.getTime());
-		
-		this.Nascimento = nascimento;  
-		
-		this.Cpf = request.getParameter("cpf");
-		this.Endereco = request.getParameter("endereco");
+
+	public Funcionario() {
 
 	}
-	
+
+	public Funcionario(HttpServletRequest request) throws ParseException {
+
+		this.Nome = request.getParameter("nome");
+		this.Login = request.getParameter("login");
+
+		if (request.getParameter("password") != null
+				!request.getParameter("password").isEmpty()) {
+			this.Senha = request.getParameter("password");
+		}
+
+		this.Departamento_id = Long.parseLong(request
+				.getParameter("departamento_id"));
+		this.Email = request.getParameter("email");
+
+		if (request.getParameter("nascimento") != null && 
+				!request.getParameter("nascimento").isEmpty()) {
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date date = format.parse(request
+					.getParameter("nascimento"));
+			java.sql.Date nascimento = new java.sql.Date(date.getTime());
+			this.Nascimento = nascimento;
+		}
+		
+		if(request.getParameter("cpf") != null){
+			this.Cpf = request.getParameter("cpf");			
+		}
+		
+		if(request.getParameter("endereco") != null){
+			this.Endereco = request.getParameter("endereco");			
+		}
+	}
+
 	public String getEmail() {
 		return Email;
 	}
@@ -51,7 +63,7 @@ public class Funcionario {
 	public void setEmail(String Email) {
 		this.Email = Email;
 	}
-	
+
 	public String getLogin() {
 		return Login;
 	}
@@ -59,12 +71,12 @@ public class Funcionario {
 	public void setLogin(String Login) {
 		this.Login = Login;
 	}
-	
-	public String getSenha(){
+
+	public String getSenha() {
 		return Senha;
 	}
-	
-	public void setSenha(String Senha){
+
+	public void setSenha(String Senha) {
 		this.Senha = Senha;
 	}
 
@@ -75,15 +87,15 @@ public class Funcionario {
 	public void setId(Long Id) {
 		this.Id = Id;
 	}
-	
-	public Long getDeptoId(){
+
+	public Long getDeptoId() {
 		return Departamento_id;
 	}
-	
-	public Long setDeptoId(Long Departamento_id){
-		return this.Departamento_id = Departamento_id; 
+
+	public Long setDeptoId(Long Departamento_id) {
+		return this.Departamento_id = Departamento_id;
 	}
-	
+
 	public String getNome() {
 		return Nome;
 	}
@@ -115,5 +127,5 @@ public class Funcionario {
 	public void setCpf(String cpf) {
 		Cpf = cpf;
 	}
-	
+
 }
