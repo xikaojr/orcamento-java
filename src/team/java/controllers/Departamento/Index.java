@@ -26,14 +26,19 @@ public class Index extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String nome = req.getParameter("nome");
-		
 
 		try {
+			
 			DepartamentoDAO ObjDAO = new DepartamentoDAO();
+			List<Departamento> departamentos = null;
 			
-			List<Departamento> departamentos = ObjDAO.getAll();
+			if(nome == null){
+				departamentos = ObjDAO.getAll();				
+			}else{
+				departamentos = ObjDAO.getAll(nome);
+			}
 			
-			req.setAttribute("departamentos", departamentos);
+			req.setAttribute("departamentosCadastrados", departamentos);
 			req.getRequestDispatcher("index.jsp").forward(req,resp);
 
 		} catch (Exception e) {

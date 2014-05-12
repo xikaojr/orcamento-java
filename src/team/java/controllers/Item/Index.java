@@ -1,4 +1,4 @@
-package team.java.controllers.Rubrica;
+package team.java.controllers.Item;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,14 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import team.java.dao.DepartamentoDAO;
-import team.java.dao.RubricaDAO;
-import team.java.domain.Departamento;
-import team.java.domain.Rubrica;
+import team.java.dao.ItemDAO;
+import team.java.domain.Item;
 
-@WebServlet(name = "RubricaIndex", 
-urlPatterns = {"/rubrica/index"})
-
+@WebServlet(name = "ItemIndex", urlPatterns = "/item/index")
 public class Index extends HttpServlet{
 
 	/**
@@ -32,23 +28,17 @@ public class Index extends HttpServlet{
 			HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String nome = req.getParameter("nome");
-
+		String term = req.getParameter("nome");
+		
 		try {
-			RubricaDAO ObjDAO = new RubricaDAO();
-			List<Rubrica> rubricas = null;
 			
-			if(nome == null){
-				rubricas = ObjDAO.getAll();				
-			}else{
-				rubricas = ObjDAO.getAll(nome);
-			}
+			ItemDAO itemDAO = new ItemDAO();
+			List<Item> itens = itemDAO.getAll(term);
 			
-			req.setAttribute("rubricasCadastradas", rubricas);
+			req.setAttribute("itensCadastrados", itens );
 			req.getRequestDispatcher("index.jsp").forward(req,resp);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.getMessage();
 			req.getRequestDispatcher("index.jsp").forward(req,resp);
 		}
@@ -65,6 +55,5 @@ public class Index extends HttpServlet{
 		processRequest(request, response);
 	}
 
-	
 
 }

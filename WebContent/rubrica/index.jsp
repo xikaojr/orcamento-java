@@ -1,6 +1,7 @@
 <%@page import="team.java.domain.Rubrica"%>
 <%@page import="java.util.*"%>
 <%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 
@@ -11,90 +12,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<!-- <meta charset="utf-8"> -->
-<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
-<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-<!-- <meta name="description" content=""> -->
-<!-- <meta name="author" content=""> -->
-<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.ico"> -->
+
+<c:import url="/imports.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("li.rubrica").addClass('active');
+	});
+</script>
 
 <title>JBudget</title>
 
-<!-- Bootstrap core CSS -->
-<link href="../css/Bootstrap.min.css" rel="stylesheet">
-<link href="../css/geral.css" rel="stylesheet">
-
-<!-- fontawesome-4.0.3 core CSS -->
-<link href="../assets/font-awesome-4.0.3/css/font-awesome.min.css"
-	rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="../css/Navbar.css" rel="stylesheet">
-
-<!-- Just for debugging purposes. Don't actually copy this line! -->
-<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
-
-
-<%!ArrayList<Rubrica> listRubrica = null;%>
-<%
-	listRubrica = (ArrayList<Rubrica>) request
-			.getAttribute("rubricas");
-%>
-
 
 <body>
 
 	<div class="container">
-
-		<!-- Static navbar -->
-		<div class="navbar navbar-default" role="navigation">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="/orcamento-java/index.html">JBudget</a>
-				</div>
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="/orcamento-java/funcionario/index">Funcionarios</a></li>
-						<li><a href="/orcamento-java/departamento/index">Departamentos</a></li>
-						<li class="active"><a href="index">Rubricas</a></li>
-						<!--               <li class="dropdown"> -->
-						<!--                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros <b class="caret"></b></a> -->
-						<!--                 <ul class="dropdown-menu"> -->
-						<!--                   <li><a href="#">Action</a></li> -->
-						<!--                   <li><a href="#">Another action</a></li> -->
-						<!--                   <li><a href="#">Something else here</a></li> -->
-						<!--                   <li class="divider"></li> -->
-						<!--                   <li class="dropdown-header">Nav header</li> -->
-						<!--                   <li><a href="#">Separated link</a></li> -->
-						<!--                   <li><a href="#">One more separated link</a></li> -->
-						<!--                 </ul> -->
-						<!--               </li> -->
-					</ul>
-					<!-- 					<ul class="nav navbar-nav navbar-right"> -->
-					<!-- 						<li class="active"><a href="./">Default</a></li> -->
-					<!-- 						<li><a href="../navbar-static-top/">Static top</a></li> -->
-					<!-- 						<li><a href="../navbar-fixed-top/">Fixed top</a></li> -->
-					<!-- 					</ul> -->
-				</div>
-				<!--/.nav-collapse -->
-			</div>
-			<!--/.container-fluid -->
-		</div>
-
-		<!-- Main component for a primary marketing message or call to action -->
+		<c:import url="/navbar.html"></c:import>
 		<div>
 			<h1>
 				Rubricas <a class="btn btn-primary" href="cadastrar.jsp"> <i
@@ -102,15 +36,33 @@
 				</a>
 			</h1>
 		</div>
-		<div class="jumbotron">
-			<form method="POST" action="index">
-				Buscar por nome: <input type="text" name="nome" /> <input
-					type="submit" name="Search" /> <br />
-			</form>
-		</div>
+
 		<%
-			if (listRubrica != null) {
+			if (request.getAttribute("message") != null) {
 		%>
+		<div class="col-md-12">
+			<div class="alert alert-${tipoAlerta}">${message}</div>
+		</div>
+		<div class="clear"></div>
+		<%
+			}
+		%>
+
+		<form method="POST" action="index" role="form">
+			<fieldset>
+				<legend>Busca</legend>
+				<div class="col-md-5 form-group"">
+					<label for="term">Nome</label> <input type="text"
+						class="form-control" id="nome" name="nome" value=""
+						placeholder="Digite um nome para buscar">
+				</div>
+				<div class="col-md-3">
+					<input type="submit" name="Search" class="btn btn-primary"
+						style="margin-top: 25px;" />
+				</div>
+			</fieldset>
+		</form>
+
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -120,30 +72,23 @@
 				</tr>
 			</thead>
 			<tbody>
-				<%
-					for (int i = 0; i < listRubrica.size(); i++) {
-				%>
-				<tr>
-					<td><%=listRubrica.get(i).getNome()%></td>
-					<td><%=listRubrica.get(i).getTipo()%></td>
-					<td><a href="#" style="cursor: pointer;"> <i
-							class="fa fa-edit black" title="Editar"></i>
-					</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
-							class="fa fa-sitemap" title="Alocar um chefe"></i>
-					</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
-							class="fa fa-trash-o red" title="Deletar"></i>
-					</a></td>
-				</tr>
-				<%
-					}
-				%>
+				<c:forEach var="rubrica" items="${rubricasCadastradas}">
+					<tr>
+						<td>${rubrica.nome}</td>
+						<td>${rubrica.tipo}</td>
+						<td><a href="editar.jsp?rubrica=${rubrica.id}"
+							style="cursor: pointer;"> <i class="fa fa-edit black"
+								title="Editar"></i>
+						</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
+								class="fa fa-sitemap" title="Alocar um chefe"></i>
+						</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
+								class="fa fa-trash-o red" title="Deletar"></i>
+						</a></td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
-		<%
-			}
-		%>
 	</div>
-	<!-- /container -->
 
 
 	<!-- Bootstrap core JavaScript

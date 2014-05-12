@@ -39,6 +39,7 @@
 
 				<form role="form" name="cadastrar" method="POST" action="cadastrar">
 					<input type="hidden" name="chefe_id" id="chefe_id" />
+					<input type="hidden" name="acao" value="create" id="acao" />
 					<div class="col-md-12">
 						<div class="form-group col-md-4">
 							<label for="nome">Nome</label> <input type="text"

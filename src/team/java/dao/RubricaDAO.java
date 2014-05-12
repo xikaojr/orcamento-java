@@ -55,9 +55,40 @@ public class RubricaDAO {
 	         
 	        while (rs.next()){
 	        	Rubrica rubrica = new Rubrica();
-	            
+	        	
+	        	rubrica.setId(rs.getLong("id"));
 	        	rubrica.setNome(rs.getString("nome"));
-	        	rubrica.setId(rs.getLong("tipo"));
+	        	rubrica.setTipo(rs.getString("tipo"));
+	            
+	        	rubricas.add(rubrica);
+	        }
+	        
+	        rs.close();
+	        stmt.close();
+	        
+	        return rubricas;
+	        
+	    }catch(SQLException e){
+	        throw e;
+	    }
+	}
+	
+public List<Rubrica> getAll(String nome) throws Exception{
+	    
+		String sql = "SELECT * FROM rubricas WHERE nome ilike '%"+nome+"%'";
+		
+	    try{
+	    	List<Rubrica> rubricas = new ArrayList<Rubrica>();
+	        
+	    	PreparedStatement stmt = this.con.prepareStatement(sql);
+	        ResultSet rs = stmt.executeQuery();
+	         
+	        while (rs.next()){
+	        	Rubrica rubrica = new Rubrica();
+	            
+	        	rubrica.setId(rs.getLong("id"));
+	        	rubrica.setNome(rs.getString("nome"));
+	        	rubrica.setTipo(rs.getString("tipo"));
 	            rubricas.add(rubrica);
 	        }
 	        

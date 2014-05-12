@@ -63,6 +63,7 @@
 				<tr>
 					<th>Nome</th>
 					<th>Email</th>
+					<th>Departamento</th>
 					<th>Ações</th>
 				</tr>
 			</thead>
@@ -78,6 +79,7 @@
 								    E-mail não informado
 								  </c:otherwise>
 							</c:choose></td>
+						<td>${dado.departamento }</td>
 						<td><a href="editar.jsp?funcionario=${dado.id}"
 							style="cursor: pointer;"> <i class="fa fa-edit black"
 								title="Editar"></i>

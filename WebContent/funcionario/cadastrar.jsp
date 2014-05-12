@@ -48,6 +48,7 @@
 				<form role="form" name="cadastrar" method="POST" action="cadastrar">
 					<div class="col-md-12">
 						<div class="form-group col-md-4">
+							<input type="hidden" name="acao" value="create"/>
 							<label for="nome">Nome</label> <input type="text"
 								class="form-control" id="nome" name="nome"
 								value="${dados.nome}" 

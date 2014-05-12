@@ -1,10 +1,8 @@
 package team.java.domain;
 
 import java.sql.Date;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +12,7 @@ public class Funcionario {
 	private String Login;
 	private String Senha;
 	private Long Departamento_id;
+	private String Departamento;
 	private String Nome;
 	private String Email;
 	private String Endereco;
@@ -26,34 +25,30 @@ public class Funcionario {
 
 	public Funcionario(HttpServletRequest request) throws ParseException {
 
-		this.Nome = request.getParameter("nome");
-		this.Login = request.getParameter("login");
+		this.Nome = request.getParameter("nome").trim();
+		this.Login = request.getParameter("login").trim();
 
 		if (request.getParameter("password") != null
-				!request.getParameter("password").isEmpty()) {
+				&& !request.getParameter("password").isEmpty()) {
 			this.Senha = request.getParameter("password");
 		}
 
 		this.Departamento_id = Long.parseLong(request
 				.getParameter("departamento_id"));
-		this.Email = request.getParameter("email");
 
-		if (request.getParameter("nascimento") != null && 
-				!request.getParameter("nascimento").isEmpty()) {
+		this.Email = request.getParameter("email").trim();
+
+		if (request.getParameter("nascimento") != null
+				&& !request.getParameter("nascimento").isEmpty()) {
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			java.util.Date date = format.parse(request
 					.getParameter("nascimento"));
 			java.sql.Date nascimento = new java.sql.Date(date.getTime());
 			this.Nascimento = nascimento;
 		}
-		
-		if(request.getParameter("cpf") != null){
-			this.Cpf = request.getParameter("cpf");			
-		}
-		
-		if(request.getParameter("endereco") != null){
-			this.Endereco = request.getParameter("endereco");			
-		}
+
+		this.Cpf = request.getParameter("cpf").trim();
+		this.Endereco = request.getParameter("endereco").trim();
 	}
 
 	public String getEmail() {
@@ -126,6 +121,14 @@ public class Funcionario {
 
 	public void setCpf(String cpf) {
 		Cpf = cpf;
+	}
+
+	public String getDepartamento() {
+		return Departamento;
+	}
+
+	public void setDepartamento(String departamento) {
+		Departamento = departamento;
 	}
 
 }

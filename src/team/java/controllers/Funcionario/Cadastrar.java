@@ -30,46 +30,53 @@ public class Cadastrar extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		Funcionario funcionario = null;
-
 		String acao = request.getParameter("acao");
 
 		switch (acao) {
+		case "create":
+			this.create(request, response);
+			break;
 		case "editar":
 			this.editar(request, response);
 			break;
-
 		default:
 			break;
 		}
 
-		// try {
-		//
-		// funcionario = new Funcionario(request);
-		//
-		// funcDAO.create(funcionario, request, response);
-		//
-		// request.setAttribute("message",
-		// "Funcionário cadastrado com sucesso!");
-		//
-		// request.setAttribute("tipoAlerta", "success");
-		//
-		// getServletConfig().getServletContext()
-		// .getRequestDispatcher("/funcionario/index.jsp")
-		// .forward(request, response);
-		//
-		// } catch (Exception e) {
-		// request.setAttribute("errorMessage",
-		// "Ocorreu um erro, " + e.getMessage());
-		//
-		// request.setAttribute("dados", funcionario);
-		//
-		// getServletConfig()
-		// .getServletContext()
-		// .getRequestDispatcher(
-		// "/funcionario/editar.jsp?funcionario=3")
-		// .forward(request, response);
-		// }
+	}
+
+	protected void create(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		Funcionario funcionario = null;
+
+		try {
+
+			funcionario = new Funcionario(request);
+
+			funcDAO.create(funcionario, request, response);
+
+			request.setAttribute("message",
+					"Funcionário cadastrado com sucesso!");
+
+			request.setAttribute("tipoAlerta", "success");
+
+			getServletConfig().getServletContext()
+					.getRequestDispatcher("/funcionario/index.jsp")
+					.forward(request, response);
+
+		} catch (Exception e) {
+			request.setAttribute("errorMessage",
+					"Ocorreu um erro, " + e.getMessage());
+
+			request.setAttribute("dados", funcionario);
+
+			getServletConfig()
+					.getServletContext()
+					.getRequestDispatcher(
+							"/funcionario/cadatrar.jsp")
+					.forward(request, response);
+		}
 	}
 
 	protected void editar(HttpServletRequest request,
@@ -77,16 +84,15 @@ public class Cadastrar extends HttpServlet {
 
 		Funcionario funcionario = null;
 		Long id = Long.parseLong(request.getParameter("id"));
-		
+
 		try {
-			
+
 			funcionario = new Funcionario(request);
 			funcionario.setId(id);
-			
+
 			funcDAO.edit(funcionario, request, response);
-			
-			request.setAttribute("message",
-					"Funcionário editado com sucesso!");
+
+			request.setAttribute("message", "Funcionário editado com sucesso!");
 
 			request.setAttribute("tipoAlerta", "success");
 
@@ -99,11 +105,11 @@ public class Cadastrar extends HttpServlet {
 			request.setAttribute("errorMessage",
 					"Ocorreu um erro, " + e.getMessage());
 
-			response.sendRedirect("/orcamento-java/funcionario/editar.jsp?funcionario="+id.toString());
-			
-//			getServletConfig().getServletContext()
-//					.getRequestDispatcher("/funcionario/editar.jsp?funcionario="+id.toString())
-//					.forward(request, response);
+			getServletConfig()
+					.getServletContext()
+					.getRequestDispatcher(
+							"/funcionario/editar.jsp?funcionario="
+									+ id.toString()).forward(request, response);
 		}
 
 	}

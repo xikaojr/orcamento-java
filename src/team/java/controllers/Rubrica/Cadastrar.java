@@ -40,7 +40,7 @@ public class Cadastrar extends HttpServlet {
 
 
 			rubrica.setNome(nome);
-			rubrica.setTipo(tipo);
+			rubrica.setTipoAdd(tipo);
 
 			if (rubrica.getNome().isEmpty())
 				throw new Exception("Nome é obrigatório");
@@ -49,11 +49,14 @@ public class Cadastrar extends HttpServlet {
 
 			rubrica = ObjDao.create(rubrica, request, response);
 
-			request.setAttribute("successMessage",
+			request.setAttribute("tipoAlerta",
+					"success");
+			
+			request.setAttribute("message",
 					"Rubrica cadastrada com sucesso!");
 
 			getServletConfig().getServletContext()
-					.getRequestDispatcher("/rubrica/index")
+					.getRequestDispatcher("/rubrica/index.jsp")
 					.forward(request, response);
 
 		} catch (ServletException e) {

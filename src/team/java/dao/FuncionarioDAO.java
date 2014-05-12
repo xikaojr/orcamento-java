@@ -85,7 +85,8 @@ public class FuncionarioDAO {
 	
 	public List<Funcionario> getAll() throws Exception {
 
-		String sql = "SELECT * FROM funcionarios";
+		String sql = "SELECT f.*, d.nome as departamento FROM funcionarios as f "
+				+ "LEFT JOIN  departamentos as d on f.departamento_id = d.id";
 
 		try {
 			List<Funcionario> funcionarios = new ArrayList<Funcionario>();
@@ -95,11 +96,8 @@ public class FuncionarioDAO {
 
 			while (rs.next()) {
 				Funcionario funcionario = new Funcionario();
-
-				funcionario.setId(rs.getLong("id"));
-				funcionario.setNome(rs.getString("nome"));
-				funcionario.setLogin(rs.getString("login"));
-				funcionario.setEmail(rs.getString("email"));
+				
+				this.setAttribsFuncionario(funcionario, rs);
 				funcionarios.add(funcionario);
 			}
 
@@ -134,8 +132,12 @@ public class FuncionarioDAO {
 
 	public List<Funcionario> getAll(String param) throws Exception {
 
-		String sql = "SELECT * FROM funcionarios WHERE nome ilike '%" + param
+		String sql = "SELECT f.*, d.nome as departamento "
+				+ " FROM funcionarios as f "
+				+ " LEFT JOIN  departamentos as d on f.departamento_id = d.id"
+				+ " WHERE f.nome ilike '%" + param
 				+ "%' ";
+		
 		try {
 
 			List<Funcionario> funcionarios = new ArrayList<Funcionario>();
@@ -162,7 +164,9 @@ public class FuncionarioDAO {
 
 	public Funcionario getById(Integer objeto) throws Exception {
 
-		String sql = "SELECT * FROM funcionarios WHERE id = " + objeto + "";
+		String sql = "SELECT f.*, d.nome as departamento FROM funcionarios as f"
+				+ " LEFT JOIN  departamentos as d on f.departamento_id = d.id "
+				+ " WHERE f.id = " + objeto + "";
 		try {
 
 			Funcionario funcionario = new Funcionario();
@@ -194,6 +198,7 @@ public class FuncionarioDAO {
 			funcionario.setEndereco(res.getString("endereco"));
 			funcionario.setEmail(res.getString("email"));
 			funcionario.setDeptoId(res.getLong("departamento_id"));
+			funcionario.setDepartamento(res.getString("departamento"));
 			funcionario.setDataNascimento(res.getDate("nascimento"));
 			funcionario.setCpf(res.getString("cpf"));
 

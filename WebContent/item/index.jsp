@@ -1,7 +1,6 @@
-<%@page import="team.java.domain.Departamento"%>
-<%@page import="team.java.domain.Funcionario"%>
+<%@page import="team.java.domain.Rubrica"%>
 <%@page import="java.util.*"%>
-
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
@@ -18,7 +17,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("li.departamento").addClass('active');
+		$("li.item").addClass('active');
 	});
 </script>
 
@@ -32,11 +31,22 @@
 		<c:import url="/navbar.html"></c:import>
 		<div>
 			<h1>
-				Departamentos <a class="btn btn-primary" href="cadastrar.jsp"> <i
+				Itens <a class="btn btn-primary" href="cadastrar.jsp"> <i
 					class="fa fa-plus-square"></i>
 				</a>
 			</h1>
 		</div>
+
+		<%
+			if (request.getAttribute("message") != null) {
+		%>
+		<div class="col-md-12">
+			<div class="alert alert-${tipoAlerta}">${message}</div>
+		</div>
+		<div class="clear"></div>
+		<%
+			}
+		%>
 
 		<form method="POST" action="index" role="form">
 			<fieldset>
@@ -47,7 +57,7 @@
 						placeholder="Digite um nome para buscar">
 				</div>
 				<div class="col-md-3">
-					<input type="submit" id="search" name="Search" class="btn btn-primary"
+					<input type="submit" name="Search" class="btn btn-primary"
 						style="margin-top: 25px;" />
 				</div>
 			</fieldset>
@@ -57,16 +67,16 @@
 			<thead>
 				<tr>
 					<th>Nome</th>
-					<th>Chefe</th>
+					<th>Rubrica</th>
 					<th>Ações</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="depto" items="${departamentosCadastrados}">
+				<c:forEach var="item" items="${itensCadastrados}">
 					<tr>
-						<td>${depto.nome}</td>
-						<td>${depto.chefeNome}</td>
-						<td><a href="editar.jsp?departamento=${depto.id}"
+						<td>${item.nome}</td>
+						<td>${item.rubricaNome}</td>
+						<td><a href="editar.jsp?item=${item.id}"
 							style="cursor: pointer;"> <i class="fa fa-edit black"
 								title="Editar"></i>
 						</a> &nbsp; <a href="#" style="cursor: pointer;"> <i
@@ -78,7 +88,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-
 	</div>
+
 </body>
 </html>

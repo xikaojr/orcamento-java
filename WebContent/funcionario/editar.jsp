@@ -35,9 +35,10 @@
 <jsp:useBean id="funcDao" class="team.java.dao.FuncionarioDAO" />
 
 <%
-	Integer objeto = Integer.parseInt(request.getParameter("funcionario"));
+	Integer objeto = Integer.parseInt(request
+			.getParameter("funcionario"));
 	Funcionario funcionario = null;
-	
+
 	if (objeto != null && objeto > 0) {
 		FuncionarioDAO objDao = new FuncionarioDAO();
 		funcionario = objDao.getById(objeto);
@@ -45,6 +46,10 @@
 		funcionario = null;
 	}
 %>
+
+<c:if test="${empty param.funcionario or param.funcionario == null }">
+	<c:redirect url="index.jsp"></c:redirect>
+</c:if>
 
 <body>
 	<div class="container">
@@ -68,12 +73,11 @@
 				<form role="form" name="editar" method="POST" action="editar">
 					<div class="col-md-12">
 						<div class="form-group col-md-4">
-							<input type="hidden" name="id" value="<%=funcionario.getId()%>"/>
-							<input type="hidden" name="acao" value="editar"/>
-							<label for="nome">Nome</label> <input type="text"
-								class="form-control" id="nome" name="nome"
-								value="<%=funcionario.getNome()%>" required autofocus
-								placeholder="Entre com seu nome">
+							<input type="hidden" name="id" value="<%=funcionario.getId()%>" />
+							<input type="hidden" name="acao" value="editar" /> <label
+								for="nome">Nome</label> <input type="text" class="form-control"
+								id="nome" name="nome" value="<%=funcionario.getNome()%>"
+								required autofocus placeholder="Entre com seu nome">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="login">Login</label> <input type="text"
@@ -101,8 +105,8 @@
 						<div class="form-group col-md-2">
 							<label for="nascimento">Data de Nascimento</label>
 
-							<fmt:formatDate value="<%=funcionario.getDataNascimento() %>" var="formattedDate"
-								type="date" pattern="dd/MM/yyyy" />
+							<fmt:formatDate value="<%=funcionario.getDataNascimento()%>"
+								var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 
 							<input class="form-control" type="text" name="nascimento"
 								onkeypress="MascaraData(editar.nascimento);" id="nascimento"

@@ -21,7 +21,27 @@ public class Rubrica {
 	public String getTipo() {
 		return Tipo;
 	}
+	
+	public void setTipoAdd(String tipo){
+		Tipo = tipo;
+	}
+	
 	public void setTipo(String tipo) {
+		
+		switch (tipo) {
+		case "D":
+			tipo = "Despesa";
+			break;
+		case "I":
+			tipo = "Investimento";
+			break;
+		case "R":
+			tipo = "Receitas";
+			break;
+		default:
+			break;
+		}
+		
 		Tipo = tipo;
 	}
 			
